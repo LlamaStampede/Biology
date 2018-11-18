@@ -174,6 +174,11 @@
                 }
                 setTimeout(function(){
                     document.getElementById("Section" + id).scrollIntoView();
+                    
+                    document.getElementById("Section" + id).style.backgroundColor = "red";
+                    setTimeout(function(){
+                        document.getElementById("Section" + id).style.backgroundColor = "transparent";
+                    }, 1000);
                 }, 1000);
             }
         </script>
