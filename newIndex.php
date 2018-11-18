@@ -2,80 +2,171 @@
 
 <html>
 
-<head>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <title>Main page</title>
+    <head>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <title>Main page</title>
 
-</head>
-<body>
-    <script>
-        function getCheckedBoxes(chkboxName) {
-          var checkboxes = document.getElementsByName(chkboxName);
-          var checkboxesChecked = [];
-          // loop over them all
-          for (var i=0; i<checkboxes.length; i++) {
-             // And stick the checked ones onto an array...
-             if (checkboxes[i].checked) {
-                checkboxesChecked.push(checkboxes[i].value);
-                 alert("yes");
-             }
-          }
-          // Return the array if it is non-empty, or null
-          return checkboxesChecked.length > 0 ? checkboxesChecked : null;
-        }
-        
-        var selected = []
-        function showUser(str) {
-            if (str != "") {
-                var index = selected.indexOf(str);
-                if (index > -1) {
-                    selected.splice(index, 1);
+    </head>
+    <body>
+        <script>
+            var selected = []
+            function getElement() {
+                var parent = null;
+                var selection;
+                if (window.getSelection) {
+                    selection = window.getSelection();
+                    if (selection.rangeCount) {
+                        parent = selection.getRangeAt(0).commonAncestorContainer;
+                        if (parent.nodeType != 1) {
+                            parent = parent.parentNode;
+                        }
+                    }
+                return parent.id;
+                }
+            }
+            function highlight() {
+                var id = getElement();
+                var elemen = document.getElementById(id);
+                var colorArray = {yellow:3};
+                if (elemen.style.backgroundColor == "yellow") {
+                    elemen.style.backgroundColor = null;
                 }
                 else {
-                    selected.push(str);
+                    elemen.style.backgroundColor = "yellow";
                 }
-            }
-            
-            if (window.XMLHttpRequest) {
-                // code for IE7+, Firefox, Chrome, Opera, Safari
-                xmlhttp = new XMLHttpRequest();
-            } else {
-                // code for IE6, IE5
-                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("txtHint").innerHTML = this.responseText;
+                if (window.XMLHttpRequest) {
+                    // code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    // code for IE6, IE5
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
                 }
-            };
-
-            var temp = JSON.stringify(selected);
-            document.getElementById("textHint").innerHTML = selected.length;
-            if (selected.length != 0) {
-                xmlhttp.open("GET","displayChapter.php?chapters="+temp,true);
+                xmlhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                    }
+                };
+                xmlhttp.open("GET","update.php?id=" + id + "&style=highlight&change=" + colorArray[elemen.style.backgroundColor],true);
                 xmlhttp.send();
+                //window.location.replace("?id=" + id + "&color=" + colorArray[elemen.style.backgroundColor]);
             }
-            else {
-                document.getElementById("txtHint").innerHTML = "Please Select a chapter to view";
+
+            function bold() {
+                var id = getElement();
+                var elemen = document.getElementById(id);
+                var boldArray = {normal:0,bold:1};
+                if (elemen.style.fontWeight == "bold") {
+                    elemen.style.fontWeight = "normal";
+                }
+                else {
+                    elemen.style.fontWeight = "bold";
+                }
+                if (window.XMLHttpRequest) {
+                    // code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    // code for IE6, IE5
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        //document.getElementById("teextHint").innerHTML = this.responseText;
+                    }
+                };
+                xmlhttp.open("GET","update.php?id=" + id + "&style=bold&change=" + boldArray[elemen.style.fontWeight],true);
+                xmlhttp.send();
+                 //window.location.replace("?id=" + id + "&bold=" + boldArray[elemen.style.fontWeight]);
             }
+
+            function underline() {
+                var id = getElement();
+                var elemen = document.getElementById(id);
+                var underlineArray = {none:0,underline:1};
+                if (elemen.style.textDecoration == "underline") {
+                    elemen.style.textDecoration = "none";
+                }
+                else {
+                    elemen.style.textDecoration = "underline";
+                }
+
+                if (window.XMLHttpRequest) {
+                    // code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    // code for IE6, IE5
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        /*console.log('xmlhttp.readyState=',xmlhttp.readyState);
+                        console.log('xmlhttp.status=',xmlhttp.status);
+                        console.log('response=',xmlhttp.responseText);*/
+                        //document.getElementById("teextHint").innerHTML = this.responseText;
+                    }
+                };
+                xmlhttp.open("GET","update.php?id=" + id + "&style=underline&change=" + underlineArray[elemen.style.textDecoration],true);
+                xmlhttp.send();
+
+            }
+            function showUser(str) {
+                if (str != "") {
+                    var index = selected.indexOf(str);
+                    if (index > -1) {
+                        selected.splice(index, 1);
+                    }
+                    else {
+                        selected.push(str);
+                    }
+                }
+
+                if (window.XMLHttpRequest) {
+                    // code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    // code for IE6, IE5
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("txtHint").innerHTML = this.responseText;
+                    }
+                };
+
+                var temp = JSON.stringify(selected);
+                //document.getElementById("textHint").innerHTML = selected.length;
+                if (selected.length != 0) {
+                    xmlhttp.open("GET","displayChapter.php?chapters="+temp,true);
+                    xmlhttp.send();
+                }
+                else {
+                    document.getElementById("txtHint").innerHTML = "Please Select a chapter to view";
+                }
+
+            }
+            showUser("1");
+        </script>
+        <div class="col1">
+            <div id="teextHint"><b>Person info will be listed here.</b></div>
+        </div>
+        <div class="col6">
+            <div id="txtHint"><b>Person info will be listed here.</b></div>
+        </div>
+        
+        <div class="col5" id="right" style="position:fixed;height:300px;background-color:aqua;top:0px;right:0px;">
+            <script>document.getElementById("right").style.height = screen.height + "px";</script>
+            <?php
+                for ($i=1; $i<10; $i++) {
+                    if ($i == 1) {
+                        echo 'Chapter ' . $i . ': <input type="checkbox" onchange="showUser(this.value)" name="chapter' . $i . '"  value="' . $i . '" checked />';
+                    }
+                    else {
+                        echo 'Chapter ' . $i . ': <input type="checkbox" onchange="showUser(this.value)" name="chapter' . $i . '"  value="' . $i . '" />';
+                    }
+                }
+            ?>
             
-        }
-        showUser("");
-    </script>
-    
-    <form>
-        <!--select name="users" onchange="showUser(this.value)">
-          <option value="">Select a chapter:</option>
-          <option value="1">Chapter 1</option>
-          <option value="2">Chapter 2</option>
-          <option value="3">Chapter 3</option>
-          <option value="4">Chapter 4</option>
-        </select-->
-        <input type="checkbox" onchange="showUser(this.value)" name="chapter1" value="1" /> Chapter 1
-        <input type="checkbox" onchange="showUser(this.value)" name="chapter2" value="2" /> Chapter 2
-        <input type="checkbox" onchange="showUser(this.value)" name="chapter3" value="3" /> Chapter 3
-    </form>
-    <div id="textHint"><b>Person info will be listed here.</b></div>
-    <div id="txtHint"><b>Person info will be listed here.</b></div>
+            <button type="button" onclick="highlight()">Highlight</button>
+            <button type="button" onclick="bold()">Bold</button>
+            <button type="button" onclick="underline()">Underline</button>
+        </div>
     </body>
 </html>

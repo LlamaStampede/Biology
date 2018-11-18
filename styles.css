@@ -11,9 +11,9 @@
 .col11 {width: 91.6%}
 .col12 {width: 100%}
 
-/*[class^='col'] {
+[class^='col'] {
     float: left;
-}*/
+}
 #right {
     position: fixed;
     top: 0;
@@ -37,6 +37,23 @@
   font-size: 12px;
 }
 
+[data-type="Title"] {
+  font-size: 32px;
+}
+[data-type="Heading 1"] {
+  font-size: 27px;
+}
+[data-type="Heading 2"] {
+  font-size: 22px;
+}
+[data-type="Heading 3"] {
+  font-size: 17px;
+}
+[data-type="Heading 4"] {
+  font-size: 12px;
+}
+
+
 
 [data-headingtype="LIST_ITEM1"] {
   margin-left: 18px;
@@ -48,4 +65,22 @@
 
 [data-headingtype="LIST_ITEM3"] {
   margin-left: 72px;
+}
+
+
+[data-type="LIST_ITEM1"] {
+  margin-left: 18px;
+}
+
+[data-type="LIST_ITEM2"] {
+  margin-left: 54px;
+}
+
+[data-type="LIST_ITEM3"] {
+  margin-left: 72px;
+}
+
+html {
+    margin: 0px;
+    padding: 0px;
 }
