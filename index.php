@@ -100,7 +100,6 @@
                         /*console.log('xmlhttp.readyState=',xmlhttp.readyState);
                         console.log('xmlhttp.status=',xmlhttp.status);
                         console.log('response=',xmlhttp.responseText);*/
-                        //document.getElementById("teextHint").innerHTML = this.responseText;
                     }
                 };
                 xmlhttp.open("GET","update.php?id=" + id + "&style=underline&change=" + underlineArray[elemen.style.textDecoration],true);
@@ -143,30 +142,65 @@
 
             }
             showUser("1");
+            function checkDictionary(text, id) {
+                text = text.slice(0, -1);
+                if (text[text.length -1] == "s") {
+                    text = text.slice(0, -1);
+                }
+                text = text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"")
+                text = text.toLowerCase();
+                if (window.XMLHttpRequest) {
+                    // code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    // code for IE6, IE5
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        /*console.log('xmlhttp.readyState=',xmlhttp.readyState);
+                        console.log('xmlhttp.status=',xmlhttp.status);
+                        console.log('response=',xmlhttp.responseText);*/
+                        document.getElementById("holder").innerHTML = this.responseText;
+                    }
+                };
+                xmlhttp.open("GET","dictionarySearcher.php?id=" + id + "&text=" + text,true);
+                xmlhttp.send();
+            }
+            function showSection(id, chapter) {
+                if (document.getElementById("CB" + chapter).checked == false) {
+                    document.getElementById("CB" + chapter).checked = true;
+                    showUser(chapter);
+                }
+                setTimeout(function(){
+                    document.getElementById("Section" + id).scrollIntoView();
+                }, 1000);
+            }
         </script>
-        <div class="col1">
-            <div id="teextHint"><b>Person info will be listed here.</b></div>
-        </div>
-        <div class="col6">
-            <div id="txtHint"><b>Person info will be listed here.</b></div>
+        <div class="col6" id="txtHint">
+            <b>Person info will be listed here.</b>
         </div>
         
         <div class="col5" id="right" style="position:fixed;height:300px;background-color:aqua;top:0px;right:0px;">
-            <script>document.getElementById("right").style.height = screen.height + "px";</script>
-            <?php
-                for ($i=1; $i<10; $i++) {
-                    if ($i == 1) {
-                        echo 'Chapter ' . $i . ': <input type="checkbox" onchange="showUser(this.value)" name="chapter' . $i . '"  value="' . $i . '" checked />';
+            <div id="chapterButtons" style="overflow-x: auto;white-space: nowrap;height:50px;">
+                <script>document.getElementById("right").style.height = screen.height + "px";</script>
+                <?php
+                    for ($i=1; $i<20; $i++) {
+                        if ($i == 1) {
+                            echo 'Chapter ' . $i . ': <input type="checkbox" onchange="showUser(this.value)" name="chapter' . $i . '"  value="' . $i . '" id="CB' . $i . '" checked />';
+                        }
+                        else {
+                            echo 'Chapter ' . $i . ': <input type="checkbox" onchange="showUser(this.value)" name="chapter' . $i . '"  value="' . $i . '" id="CB' . $i . '" />';
+                        }
                     }
-                    else {
-                        echo 'Chapter ' . $i . ': <input type="checkbox" onchange="showUser(this.value)" name="chapter' . $i . '"  value="' . $i . '" />';
-                    }
-                }
-            ?>
-            
+                ?>
+            </div>
             <button type="button" onclick="highlight()">Highlight</button>
             <button type="button" onclick="bold()">Bold</button>
             <button type="button" onclick="underline()">Underline</button>
+            <div id="holder" style="overflow-y:scroll; height: 80%;">
+                Text will show here
+            </div>
         </div>
     </body>
 </html>

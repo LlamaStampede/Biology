@@ -120,7 +120,7 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
             }
         }
     
-        echo "<span id='Word$id.$i' style='$style'>" . $separatedText[$i] . " </span>";
+        echo "<span class='word' onclick='checkDictionary(this.innerHTML, this.id)' id='Word$id.$i' style='$style'>" . $separatedText[$i] . " </span>";
         
     
     }
