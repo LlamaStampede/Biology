@@ -24,7 +24,7 @@
                                                                              highlights VARCHAR(255),
                                                                              bolds VARCHAR(255),
                                                                              underlines VARCHAR(255));");*/
-        $result = mysqli_query($connection, "SELECT * FROM Notes WHERE id<400;");
+        $result = mysqli_query($connection, "SELECT * FROM Notes;");
         $clear = mysqli_query($connection, "TRUNCATE TABLE GroupedNotes;");
     
         $currentType = NULL;
@@ -38,7 +38,6 @@
         $underlines = "";
         while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
             $type = $row['headerType'];
-            $currentChapter = $row['chapter'];
             $line = $row['line'];
             //echo $type . "<br>";
             if ($currentType == NULL) { //If first row
@@ -46,7 +45,7 @@
                 //echo "first\n";
             }
             
-            echo $currentID . "<br>";
+            //echo $currentID . "<br>";
             if ($currentType != $type) {
                 $add = mysqli_query($connection, "INSERT INTO GroupedNotes VALUES ('$currentID', '$currentText', '$currentType', '$currentChapter', '$linebreaks', '$highlights', '$bolds', '$underlines')");
                 echo "INSERT INTO GroupedNotes ('id', 'text', 'type', 'chapter', 'linebreaks', 'highlights', 'bolds', 'underlines') VALUES ('$currentID', '$currentText', '$currentType', '$currentChapter', '$linebreaks', '$highlights', '$bolds', '$underlines')";
@@ -69,7 +68,7 @@
             $highlights = $highlights . $row['highlight'];
             $bolds = $bolds . $row['bold'];
             $underlines = $underlines . $row['underline'];
-            
+            $currentChapter = $row['chapter'];
         }
         echo "done";
         
