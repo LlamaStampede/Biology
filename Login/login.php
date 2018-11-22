@@ -14,8 +14,6 @@
     $existing = mysqli_query($connection, "SELECT * FROM Users;");// WHERE email='$email';");
     if (mysqli_num_rows($existing) > 0) { //check if there is a user with this email
         $data = mysqli_fetch_assoc($existing);
-        echo $password . "<br>";
-        echo $data['password'] . "<br>";
         if (password_verify($password, $data['password'])) {
             if ($data['active'] != 0) {
                 $_SESSION['allowed'] = true;

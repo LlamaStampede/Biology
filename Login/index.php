@@ -28,10 +28,10 @@
         <script>
             function login() {
                 document.getElementById('registerContainer').style.display = "none";
-                document.getElementById('loginContainer').style.display = "inline";
+                document.getElementById('loginButton').style.display = "inline";
             }
             function register() {
-                document.getElementById('loginContainer').style.display = "none";
+                document.getElementById('loginButton').style.display = "none";
                 document.getElementById('registerContainer').style.display = "inline";
             }
             
@@ -47,13 +47,11 @@
                 <div id="loginContainer">
                     <a style="color:red;">*</a> Email: <input type="email" name="email"><br>
                     <a style="color:red;">*</a> Password: <input type="password" name="password"><br>
-                    <input type="submit" value="Submit" name="login"> <br>
+                    <input id="loginButton" type="submit" value="Submit" name="login"> <br>
                 </div>
                 <div id="registerContainer"  style="display:none;">
                     First Name: <input type="text" name="name"><br>
-                    <!--a style="color:red;">*</a> Email: <input type="email" name="email"><br>
-                    <a style="color:red;">*</a> Password: <input type="password" name="password"><br>
-                    <a style="color:red;">*</a> Confirm Password: <input type="password" name="cPassword"><br-->
+                    <a style="color:red;">*</a> Confirm Password: <input type="password" name="cPassword"><br>
                     <input type="submit" value="Sign Up" name="register">
                 </div>
             </form>
