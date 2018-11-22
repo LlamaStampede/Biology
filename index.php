@@ -1,3 +1,13 @@
+<?php
+    session_start();
+    if (isset($_SESSION['allowed']) && $_SESSION['allowed'] == true) {
+        echo "<script> alert('you are logged in') </script>";
+    }
+    else {
+        echo "<script> window.location.replace('/Biology/Login/') </script>";
+    }
+?>
+
 <!DOCTYPE html>
 
 <html>
@@ -175,7 +185,7 @@
                 setTimeout(function(){
                     document.getElementById("Section" + id).scrollIntoView();
                     
-                    document.getElementById("Section" + id).style.backgroundColor = "red";
+                    document.getElementById("Section" + id).style.backgroundColor = "#2e79b9";
                     setTimeout(function(){
                         document.getElementById("Section" + id).style.backgroundColor = "transparent";
                     }, 1000);
@@ -186,7 +196,7 @@
             <b>Person info will be listed here.</b>
         </div>
         
-        <div class="col5" id="right" style="position:fixed;height:300px;background-color:aqua;top:0px;right:0px;">
+        <div class="col5" id="right" style="position:fixed;height:300px;background-color:aqua;top:0px;right:0px;padding:10px;">
             <div id="chapterButtons" style="overflow-x: auto;white-space: nowrap;height:50px;">
                 <script>document.getElementById("right").style.height = screen.height + "px";</script>
                 <?php
