@@ -5,15 +5,17 @@
 
     $email = test_input($_POST['email']);
     $name = test_input($_POST['name']);
-    $password = password_hash(test_input($_POST['password']), PASSWORD_DEFAULT);
+    $cPassword = test_input($_POST['cPassword']);
+    $password = test_input($_POST['password']);
+    if ($password != $cPassword) {
+        $_SESSION['message'] = "Passwords do not match!";
+        header('Location: index.php');
+    }
+    else {
+    $password = password_hash($password, PASSWORD_DEFAULT);
     $hash = test_input(md5(rand(0,1000)));
 
-    function test_input($data) {
-      $data = trim($data);
-      $data = stripslashes($data);
-      $data = htmlspecialchars($data);
-      return $data;
-    }
+    
 
     //check if email is already used
     $existing = mysqli_query($connection, "SELECT * FROM Users WHERE email='$email'");
@@ -43,11 +45,11 @@
             echo 'Unable to send email. Please try again.';
         }
         
-        $_SESSION['message'] = "This email is a new email: $email";
+        $_SESSION['message'] = "Thank you, $name, for signing up. Please check your email to activate your account.";
     }
     else {
         $_SESSION['message'] = "That email is already in use, try logging in or reseting your password";
         header('Location: index.php');
     }
-
+    }
 ?>

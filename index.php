@@ -11,11 +11,10 @@
 <!DOCTYPE html>
 
 <html>
-
+    
     <head>
         <link rel="stylesheet" type="text/css" href="styles.css">
         <title>Main page</title>
-
     </head>
     <body>
         <script>
@@ -34,16 +33,7 @@
                 return parent.id;
                 }
             }
-            function highlight() {
-                var id = getElement();
-                var elemen = document.getElementById(id);
-                var colorArray = {yellow:3};
-                if (elemen.style.backgroundColor == "yellow") {
-                    elemen.style.backgroundColor = null;
-                }
-                else {
-                    elemen.style.backgroundColor = "yellow";
-                }
+            function doThis(param) {
                 if (window.XMLHttpRequest) {
                     // code for IE7+, Firefox, Chrome, Opera, Safari
                     xmlhttp = new XMLHttpRequest();
@@ -55,68 +45,54 @@
                     if (this.readyState == 4 && this.status == 200) {
                     }
                 };
-                xmlhttp.open("GET","update.php?id=" + id + "&style=highlight&change=" + colorArray[elemen.style.backgroundColor],true);
+                xmlhttp.open("GET","update.php?" + param ,true);
                 xmlhttp.send();
+            }
+            function highlight() {
+                var id = getElement();
+                var elemen = document.getElementById(id);
+                elemen.classList.toggle("highlight")
+                console.log("here")
+                if (elemen.classList.contains("highlight")) {
+                    elemen.dataset.color = "yellow";
+                    console.log("here3")
+                    doThis("id=" + id + "&style=highlight&change=3");
+                }
+                else {
+                    elemen.dataset.color = "";
+                    console.log("here0")
+                    doThis("id=" + id + "&style=highlight&change=0");
+                }
                 //window.location.replace("?id=" + id + "&color=" + colorArray[elemen.style.backgroundColor]);
             }
 
             function bold() {
                 var id = getElement();
                 var elemen = document.getElementById(id);
-                var boldArray = {normal:0,bold:1};
-                if (elemen.style.fontWeight == "bold") {
-                    elemen.style.fontWeight = "normal";
+                elemen.classList.toggle("bold")
+                if (elemen.classList.contains("bold")) {
+                    doThis("id=" + id + "&style=bold&change=1");
                 }
                 else {
-                    elemen.style.fontWeight = "bold";
+                    doThis("id=" + id + "&style=bold&change=0");
                 }
-                if (window.XMLHttpRequest) {
-                    // code for IE7+, Firefox, Chrome, Opera, Safari
-                    xmlhttp = new XMLHttpRequest();
-                } else {
-                    // code for IE6, IE5
-                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                }
-                xmlhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        //document.getElementById("teextHint").innerHTML = this.responseText;
-                    }
-                };
-                xmlhttp.open("GET","update.php?id=" + id + "&style=bold&change=" + boldArray[elemen.style.fontWeight],true);
-                xmlhttp.send();
+                
                  //window.location.replace("?id=" + id + "&bold=" + boldArray[elemen.style.fontWeight]);
             }
 
             function underline() {
                 var id = getElement();
                 var elemen = document.getElementById(id);
-                var underlineArray = {none:0,underline:1};
-                if (elemen.style.textDecoration == "underline") {
-                    elemen.style.textDecoration = "none";
+                elemen.classList.toggle("underline")
+                if (elemen.classList.contains("underline")) {
+                    doThis("id=" + id + "&style=underline&change=1");
                 }
                 else {
-                    elemen.style.textDecoration = "underline";
+                    doThis("id=" + id + "&style=underline&change=0");
                 }
-
-                if (window.XMLHttpRequest) {
-                    // code for IE7+, Firefox, Chrome, Opera, Safari
-                    xmlhttp = new XMLHttpRequest();
-                } else {
-                    // code for IE6, IE5
-                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                }
-                xmlhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        /*console.log('xmlhttp.readyState=',xmlhttp.readyState);
-                        console.log('xmlhttp.status=',xmlhttp.status);
-                        console.log('response=',xmlhttp.responseText);*/
-                    }
-                };
-                xmlhttp.open("GET","update.php?id=" + id + "&style=underline&change=" + underlineArray[elemen.style.textDecoration],true);
-                xmlhttp.send();
-
             }
-            function showUser(str) {
+            
+            function thisToo(str) {
                 if (str != "") {
                     var index = selected.indexOf(str);
                     if (index > -1) {
@@ -126,7 +102,6 @@
                         selected.push(str);
                     }
                 }
-
                 if (window.XMLHttpRequest) {
                     // code for IE7+, Firefox, Chrome, Opera, Safari
                     xmlhttp = new XMLHttpRequest();
@@ -149,9 +124,19 @@
                 else {
                     document.getElementById("txtHint").innerHTML = "Please Select a chapter to view";
                 }
-
             }
-            showUser("1");
+            
+            function showUser(str) {
+                if (document.getElementById("chapterButton" + str).dataset.selected == "false") {
+                    document.getElementById("chapterButton" + str).dataset.selected = "true";
+                }
+                else {
+                    document.getElementById("chapterButton" + str).dataset.selected = "false";
+                }
+                
+                thisToo(str)
+            }
+            thisToo(1);
             function checkDictionary(text, id) {
                 text = text.slice(0, -1);
                 if (text[text.length -1] == "s") {
@@ -178,8 +163,8 @@
                 xmlhttp.send();
             }
             function showSection(id, chapter) {
-                if (document.getElementById("CB" + chapter).checked == false) {
-                    document.getElementById("CB" + chapter).checked = true;
+                if (document.getElementById("chapterButton" + chapter).dataset.selected == "false") {
+                    document.getElementById("chapterButton" + chapter).dataset.selected = true;
                     showUser(chapter);
                 }
                 setTimeout(function(){
@@ -197,22 +182,22 @@
         </div>
         
         <div class="col5" id="right" style="position:fixed;height:300px;background-color:aqua;top:0px;right:0px;padding:10px;">
-            <div id="chapterButtons" style="overflow-x: auto;white-space: nowrap;height:50px;">
+            <div id="chapterButtons" style="overflow-x: auto;white-space: nowrap;height:75px;padding-bottom:10px;">
                 <script>document.getElementById("right").style.height = screen.height + "px";</script>
                 <?php
                     for ($i=1; $i<20; $i++) {
                         if ($i == 1) {
-                            echo 'Chapter ' . $i . ': <input type="checkbox" onchange="showUser(this.value)" name="chapter' . $i . '"  value="' . $i . '" id="CB' . $i . '" checked />';
+                            echo '<button class="button" type="checkbox" onclick="showUser(' . $i . ')" data-selected="true" id="chapterButton' . $i . '"> Chapter ' . $i . ' </button>';
                         }
                         else {
-                            echo 'Chapter ' . $i . ': <input type="checkbox" onchange="showUser(this.value)" name="chapter' . $i . '"  value="' . $i . '" id="CB' . $i . '" />';
+                            echo '<button class="button" type="checkbox" onclick="showUser(' . $i . ')" data-selected="false" id="chapterButton' . $i . '"> Chapter ' . $i . ' </button>';
                         }
                     }
                 ?>
             </div>
-            <button type="button" onclick="highlight()">Highlight</button>
-            <button type="button" onclick="bold()">Bold</button>
-            <button type="button" onclick="underline()">Underline</button>
+            <button class="button editButton" type="button" onclick="highlight()">Highlight</button>
+            <button class="button editButton" type="button" onclick="bold()">Bold</button>
+            <button class="button editButton" type="button" onclick="underline()">Underline</button>
             <div id="holder" style="overflow-y:scroll; height: 80%;">
                 Text will show here
             </div>

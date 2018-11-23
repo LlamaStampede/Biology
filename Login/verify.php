@@ -20,13 +20,13 @@
                     }
                     $update = mysqli_query($connection, "UPDATE Users SET active = 1, permissions = $perm WHERE email='$email';");
                     $_SESSION['message'] = "You have successfully activated your account. Happy studying!";
-                    echo "<br>You have successfully activated your account. Happy studying!<br>$perm<br>$email";
+                    $_SESSION['allowed'] = true;
+                    echo "<script> window.location.replace('../'); </script>";
                 }
             }
             else {
                 header('Location: index.php');
             }
-            echo "<script> window.location.replace('index.php'); </script>"
         ?>
     </body>
 </html>

@@ -99,15 +99,17 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     $bolds = str_split($row['bolds']);
     $highlights = str_split($row['highlights']);
     for ($i=0; $i<count($separatedText)-1; $i++) { //Iterate through each word applying all information
-        $style = "";
+        $styleClasses = "";
+        $dataColor = "";
         if ($highlights[$i] != 0) {
-            $style = $style . "background-color:" . $color[$highlights[$i]] . ";";
+            $styleClasses .= " highlight";
+            $dataColor = " data-color=" . $color[$highlights[$i]];
         }
         if ($bolds[$i] != 0) {
-            $style = $style . "font-weight:bold;";
+            $styleClasses .= " bold";
         }
         if ($underlines[$i] != 0) {
-            $style = $style . "text-decoration:underline;";
+            $styleClasses .= " underline";
         }
         if ($linebreaks[$i] != 0) {
             echo "<br>";
@@ -120,7 +122,7 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
             }
         }
     
-        echo "<span class='word' onclick='checkDictionary(this.innerHTML, this.id)' id='Word$id.$i' style='$style'>" . $separatedText[$i] . " </span>";
+        echo "<span class='word$styleClasses' onclick='checkDictionary(this.innerHTML, this.id)'$dataColor id='Word$id.$i'>" . $separatedText[$i] . " </span>";
         
     
     }
