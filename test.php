@@ -39,6 +39,7 @@
                 ele.style.whiteSpace = "normal";
                 var inner = ele.innerHTML.replace(/<\/div><div>/g, "</div> <div>");
                 inner = inner.replace(/<br>/g, " <br> ");
+                inner = inner.replace(/<div>/g, " <br> ");
                 var text = inner.split(" ");
                 console.log("Text before processing: " + text);
                 for (var i=0;i<text.length;i++) { 
@@ -79,6 +80,10 @@
                 var lines = new Array(text.length);
                 for (var i=0;i<text.length;i++) { 
                     var count = (text[i].match(/<br>/g) || []).length;
+                    if (count > 9) { //can't have two digits
+                        count = 9;
+                        alert('Please do not type 10 or more new lines in a row');
+                    }
                     lines[i] = count;
                     text[i] = text[i].replace(/<br>/g, "");
                 }
