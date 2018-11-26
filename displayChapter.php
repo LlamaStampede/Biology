@@ -64,18 +64,19 @@ while($row = mysqli_fetch_array($columns, MYSQLI_ASSOC)) {
 $arrlength = count($theColumns);
     
     
-
 $lastSectionType = "";
 $linesInList = 0;
 $amountOfLists = 0;
 $currentList = array(0, 0, 0, 0);
 $bigList = array(array(1, 2, 3, 4, 5, 6, 7, 8, 9), array("a", "b", "c", "d", "e", "f", "g", "h"), array("i", "ii", "iii", "iv", "v", "vi", "vi", "vii"));
+$firstSection = true;
+$firstWord = true;
 while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     $id = $row['id'];
     $type = $row['type'];
     $chapter = $row['chapter'];
     $isList = false;
-    echo "<div class='Section' id='Section$id' data-type='$type' data-chapter='$chapter'>"; //Create the section's div
+    echo "<div class='Section' id='Section$id' data-type='$type' data-chapter='$chapter' contenteditable='false' ondblclick='doubleclick(this)' onfocusout='focusOUT(this)'>"; //Create the section's div
      
     if (substr($type, 0, 9) == "LIST_ITEM") { //Check if section is a list
         $isList = true;
@@ -85,6 +86,7 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
             $previousType = substr($lastSectionType, -1);
         }
         else {
+            //$amountOfLists++;
             $currentList = array(0, 0, 0, 0);
             $linesInList = 0;
         }
@@ -98,7 +100,10 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     $underlines = str_split($row['underlines']);
     $bolds = str_split($row['bolds']);
     $highlights = str_split($row['highlights']);
-    for ($i=0; $i<count($separatedText)-1; $i++) { //Iterate through each word applying all information
+    if ($id == 3) {
+        echo "<script>console.log('" . count($separatedText) . "');</script>";
+    }
+    for ($i=0; $i<count($separatedText); $i++) { //Iterate through each word applying all information //separatedText must have an empty value
         $styleClasses = "";
         $dataColor = "";
         if ($highlights[$i] != 0) {
@@ -112,7 +117,12 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
             $styleClasses .= " underline";
         }
         if ($linebreaks[$i] != 0) {
-            echo "<br>";
+            if ($firstWord) {
+                $firstWord = false;
+            }
+            else {
+                echo "<br>";
+            }
             if ($isList) {
                 echo "<span class='list' id='List$amountOfLists.$linesInList'>" . $bigList[$listType-1][$currentList[$listType-1]] . ") </span>";
                 $linesInList++; 
@@ -129,7 +139,9 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     
     
   
-    
+    if ($firstSection) {
+        $firstSection = false;
+    }
     
     
     

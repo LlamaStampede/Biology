@@ -13,6 +13,7 @@
         if (password_verify($password, $data['password'])) {
             if ($data['active'] != 0) {
                 $_SESSION['allowed'] = true;
+                $_SESSION['perms'] = $data['permissions'];
                 echo "<script> window.location.replace('../'); </script>";
             }
             else {

@@ -14,8 +14,10 @@
             $db = 'sql9262759';
             $connection = mysqli_connect($server, $user, $pass, $db);
             
-            $result = mysqli_query($connection, "SELECT * FROM dictionary WHERE LOWER(word) LIKE '%$text%';");
-            echo "<div id='definitionHeader'>Definitions:</div><br>";
+            $result = mysqli_query($connection, "SELECT * FROM dictionary WHERE LOWER(word) LIKE '%$text%' AND NOT id='$id';");
+            if (mysqli_num_rows($result) > 0) {
+                echo "<div id='definitionHeader'>Definitions:</div><br>";
+            }
             while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $word = $row['word'];
                 $definition = $row['definition'];
@@ -26,7 +28,9 @@
         
             //$headings = mysqli_query($connection, "SELECT id, text, chapter FROM GroupedNotes WHERE LOWER(text) LIKE '%$text%' AND (type LIKE 'Heading _' OR type LIKE '%Title';");
             $headings = mysqli_query($connection, "SELECT id, text, chapter FROM GroupedNotes WHERE LOWER(text) LIKE '%$text%';");// AND (type LIKE 'Heading _' OR type LIKE '%Title';");
-            echo "<div id='definitionHeader'>Related Headings:</div><br>";
+            if (mysqli_num_rows($headings) > 0) {
+                echo "<div id='definitionHeader'>Related Headings:</div><br>";
+            }
             while($row = mysqli_fetch_array($headings, MYSQLI_ASSOC)) {
                 $text = $row['text'];
                 $chapter = $row['chapter'];

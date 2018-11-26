@@ -14,6 +14,8 @@
     
     <head>
         <link rel="stylesheet" type="text/css" href="styles.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="contentEdit.js"></script>
         <title>Main page</title>
     </head>
     <body>
@@ -45,7 +47,7 @@
                     if (this.readyState == 4 && this.status == 200) {
                     }
                 };
-                xmlhttp.open("GET","update.php?" + param ,true);
+                xmlhttp.open("GET","updateProperties.php?" + param ,true);
                 xmlhttp.send();
             }
             function highlight() {
@@ -122,7 +124,7 @@
                     xmlhttp.send();
                 }
                 else {
-                    document.getElementById("txtHint").innerHTML = "Please Select a chapter to view";
+                    document.getElementById("txtHint").innerHTML = "Select a chapter to view";
                 }
             }
             
@@ -136,7 +138,50 @@
                 
                 thisToo(str)
             }
+            
+            function showUserAll(element) {
+                var elements = document.getElementsByClassName("chapterButton");
+                if (element.dataset.all == "false") {
+                    var arr = [];
+                    element.dataset.all = "true";
+                    element.innerHTML = "Deselect All";
+                    for (var i=1;i<elements.length;i++) {
+                        elements[i].dataset.selected = "true";
+                        arr.push(elements[i].id.slice(13));
+                    }
+                    console.log(arr);
+                    if (window.XMLHttpRequest) {
+                        // code for IE7+, Firefox, Chrome, Opera, Safari
+                        xmlhttp = new XMLHttpRequest();
+                    } else {
+                        // code for IE6, IE5
+                        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }
+                    xmlhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            document.getElementById("txtHint").innerHTML = this.responseText;
+                        }
+                    };
+
+                    var temp = JSON.stringify(arr);
+
+                    xmlhttp.open("GET","displayChapter.php?chapters="+temp,true);
+                    xmlhttp.send();
+                }
+                else {
+                    element.dataset.all = "false";
+                    element.innerHTML = "Select All";
+                    for (var i=1;i<elements.length;i++) {
+                        elements[i].dataset.selected = "false";
+                    }
+                    selected = [];
+                    thisToo("");
+                }
+                
+
+            }
             thisToo(1);
+            
             function checkDictionary(text, id) {
                 text = text.slice(0, -1);
                 if (text[text.length -1] == "s") {
@@ -176,21 +221,23 @@
                     }, 1000);
                 }, 1000);
             }
+            
         </script>
-        <div class="col6" id="txtHint">
-            <b>Person info will be listed here.</b>
+        <div class="col6" id="txtHint" style="padding:10px;">
+            <b>Select a chapter to view it</b>
         </div>
         
-        <div class="col5" id="right" style="position:fixed;height:300px;background-color:aqua;top:0px;right:0px;padding:10px;">
-            <div id="chapterButtons" style="overflow-x: auto;white-space: nowrap;height:75px;padding-bottom:10px;">
+        <div class="col6" id="right" style="position:fixed;height:15%;background-color:aqua;top:0px;right:0px;padding:10px;">
+            <div id="chapterButtons" style="overflow-x: auto;white-space: nowrap;height:5%;padding-bottom:10px;">
                 <script>document.getElementById("right").style.height = screen.height + "px";</script>
                 <?php
+                    echo '<button class="button chapterButton" onclick="showUserAll(this)" data-selected="false" data-all="false" id="chapterButtonAll"> Select All </button>';
                     for ($i=1; $i<20; $i++) {
                         if ($i == 1) {
-                            echo '<button class="button" type="checkbox" onclick="showUser(' . $i . ')" data-selected="true" id="chapterButton' . $i . '"> Chapter ' . $i . ' </button>';
+                            echo '<button class="button chapterButton" onclick="showUser(' . $i . ')" data-selected="true" id="chapterButton' . $i . '"> Chapter ' . $i . ' </button>';
                         }
                         else {
-                            echo '<button class="button" type="checkbox" onclick="showUser(' . $i . ')" data-selected="false" id="chapterButton' . $i . '"> Chapter ' . $i . ' </button>';
+                            echo '<button class="button chapterButton" onclick="showUser(' . $i . ')" data-selected="false" id="chapterButton' . $i . '"> Chapter ' . $i . ' </button>';
                         }
                     }
                 ?>
@@ -198,8 +245,8 @@
             <button class="button editButton" type="button" onclick="highlight()">Highlight</button>
             <button class="button editButton" type="button" onclick="bold()">Bold</button>
             <button class="button editButton" type="button" onclick="underline()">Underline</button>
-            <div id="holder" style="overflow-y:scroll; height: 80%;">
-                Text will show here
+            <div id="holder" style="overflow-y:scroll; height: 75%;">
+                Click on a word to see dictionary entries and other occurences of that word
             </div>
         </div>
     </body>

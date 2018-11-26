@@ -38,8 +38,9 @@
                 console.log("Inner html: " + ele.innerHTML);
                 ele.style.whiteSpace = "normal";
                 var inner = ele.innerHTML.replace(/<\/div><div>/g, "</div> <div>");
+                inner = inner.replace(/<div><br><\/div>/gi, "<br>");
                 inner = inner.replace(/<br>/g, " <br> ");
-                inner = inner.replace(/<div>/g, " <br> ");
+                //inner = inner.replace(/<div>/g, " <br> ");
                 var text = inner.split(" ");
                 console.log("Text before processing: " + text);
                 for (var i=0;i<text.length;i++) { 

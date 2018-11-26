@@ -11,14 +11,16 @@
 .col11 {width: 91.6%}
 .col12 {width: 100%}
 
+html, body {
+    padding: 0px;
+    margin: 0px;
+}
+
+
 [class^='col'] {
     float: left;
-}
-#right {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width:50%;
+    padding: 0px;
+    margin: 0px;
 }
 
 [data-headingtype="Title"] {
