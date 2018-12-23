@@ -10,10 +10,17 @@ function getAllIndexes(arr, val) {
 }
 
 function doubleclick(ele) {
+    console.log("here");
+    if (ele.hasChildNodes()) {
+        if (ele.querySelector("#plus") != null) {
+            document.getElementById("txtHint").appendChild(document.getElementById("plus"));
+        }
+    }
     console.log(ele.id);
     var id = ele.id.slice(7);
     console.log(id);
     console.log("getRow.php?id=" + id);
+    ele.dataset.dblclicked = "true";
     var rawText = "yesNEXTno";
     
     if (window.XMLHttpRequest) {
@@ -51,91 +58,94 @@ function doubleclick(ele) {
     ele.focus();
 }
 function focusOUT(ele) {
-    var id = ele.id.slice(7);
-    var type = ele.dataset.type;
-    console.log("ID: " + id);
-    
-    ele.contentEditable = "false";
-    //console.log("Inner html: " + ele.innerHTML);
-    ele.style.whiteSpace = "normal";
-    var inner = ele.innerHTML.replace(/<\/div><div>/g, "</div> <div>");
-    inner = inner.replace(/<div><br><\/div>/gi, "<br>");
-    inner = inner.replace(/<br>/g, " <br> ");
-    //inner = inner.replace(/<div>/g, " <br> ");
-    var text = inner.split(" ");
-    //console.log("Text before processing: " + text);
-    for (var i=0;i<text.length;i++) { 
-        /*if (text[i].includes("<div>")) {
-            //var newText = text[i].replace(regex, "<br>");
-            var newText = text[i].replace(/<div><br>/gi, "<br>");
+    if (ele.dataset.dblclicked == "true") {
+        ele.dataset.dblclicked = "false";
+        var id = ele.id.slice(7);
+        var type = ele.dataset.type;
+        console.log("ID: " + id);
+
+        ele.contentEditable = "false";
+        //console.log("Inner html: " + ele.innerHTML);
+        ele.style.whiteSpace = "normal";
+        var inner = ele.innerHTML.replace(/<\/div><div>/g, "</div> <div>");
+        inner = inner.replace(/<div><br><\/div>/gi, "<br>");
+        inner = inner.replace(/<br>/g, " <br> ");
+        //inner = inner.replace(/<div>/g, " <br> ");
+        var text = inner.split(" ");
+        //console.log("Text before processing: " + text);
+        for (var i=0;i<text.length;i++) { 
+            /*if (text[i].includes("<div>")) {
+                //var newText = text[i].replace(regex, "<br>");
+                var newText = text[i].replace(/<div><br>/gi, "<br>");
+                newText = newText.replace(/<\/div>/gi, "");
+                //var newText = text[i].replace(/<\/div>/gi, "");
+                console.log(newText + "\n");
+                text[i] = newText;
+            }*/
+            var newText = text[i].replace(/<div><br><\/div>/gi, "<br>");
+            newText = newText.replace(/<div>/gi, "<br>");
             newText = newText.replace(/<\/div>/gi, "");
-            //var newText = text[i].replace(/<\/div>/gi, "");
-            console.log(newText + "\n");
-            text[i] = newText;
-        }*/
-        var newText = text[i].replace(/<div><br><\/div>/gi, "<br>");
-        newText = newText.replace(/<div>/gi, "<br>");
-        newText = newText.replace(/<\/div>/gi, "");
 
-        //newText = newText.replace(/<br>/g, " ");
-        text[i] = newText.replace(/  +/g, ' ');
-    }
-    text.pop();
-
-    var filtered = text.filter(function (el) {
-      return el != "";
-    });
-    text = filtered;
-
-    //console.log("Text midway through processing: " + text + "\n");
-
-
-
-    var indexes = getAllIndexes(text, "<br>");
-    var times = 0;
-    for (var i = 0; i<indexes.length; i++) {
-        text.splice(indexes[i]-times, 2, text[indexes[i]-times] + text[indexes[i]-times+1]);
-        times++;
-    }
-   //console.log("Text 75% through processing: " + text + "\n");
-
-    var lines = new Array(text.length);
-    for (var i=0;i<text.length;i++) { 
-        var count = (text[i].match(/<br>/g) || []).length;
-        if (count > 9) { //can't have two digits
-            count = 9;
-            alert('Please do not type 10 or more new lines in a row');
+            //newText = newText.replace(/<br>/g, " ");
+            text[i] = newText.replace(/  +/g, ' ');
         }
-        lines[i] = count;
-        text[i] = text[i].replace(/<br>/g, "");
-    }
-    //console.log("Line status: " + lines);
+        text.pop();
 
+        var filtered = text.filter(function (el) {
+          return el != "";
+        });
+        text = filtered;
 
-    text = text.join(" ").split(" ");
+        //console.log("Text midway through processing: " + text + "\n");
 
-    var finalText = text.join(" ");
-    var finalLinebreaks = lines.join("");
-    console.log("Final Text: " + finalText);
-    console.log("Final Linebreaks: " + finalLinebreaks);
-    
-    if (window.XMLHttpRequest) {
-        // code for IE7+, Firefox, Chrome, Opera, Safari
-        xmlhttp = new XMLHttpRequest();
-    } else {
-        // code for IE6, IE5
-        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log('FINISHED');
-            ele.innerHTML = this.responseText;
+        var list = ele.dataset.list;
+
+        var indexes = getAllIndexes(text, "<br>");
+        var times = 0;
+        for (var i = 0; i<indexes.length; i++) {
+            text.splice(indexes[i]-times, 2, text[indexes[i]-times] + text[indexes[i]-times+1]);
+            times++;
         }
-    };
-    console.log('before');
-    xmlhttp.open("GET","updateRow.php?id=" + id + "&text=" + encodeURIComponent(finalText) + "&linebreaks=" + finalLinebreaks + "&type=" + type, true);
-    console.log("updateRow.php?id=" + id + "&text=" + encodeURIComponent(finalText) + "&linebreaks=" + finalLinebreaks + "&type=" + type);
-    xmlhttp.send();
-    console.log('after');
-    //text = text.replace("<br>", "");
+       //console.log("Text 75% through processing: " + text + "\n");
+
+        var lines = new Array(text.length);
+        for (var i=0;i<text.length;i++) { 
+            var count = (text[i].match(/<br>/g) || []).length;
+            if (count > 9) { //can't have two digits
+                count = 9;
+                alert('Please do not type 10 or more new lines in a row');
+            }
+            lines[i] = count;
+            text[i] = text[i].replace(/<br>/g, "");
+        }
+        //console.log("Line status: " + lines);
+
+
+        text = text.join(" ").split(" ");
+
+        var finalText = text.join(" ");
+        var finalLinebreaks = lines.join("");
+        console.log("Final Text: " + finalText);
+        console.log("Final Linebreaks: " + finalLinebreaks);
+
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log('FINISHED');
+                ele.innerHTML = this.responseText;
+            }
+        };
+        console.log('before');
+        xmlhttp.open("GET","updateRow.php?id=" + id + "&text=" + encodeURIComponent(finalText) + "&linebreaks=" + finalLinebreaks + "&type=" + type + "&list=" + encodeURIComponent(list), true);
+        console.log("updateRow.php?id=" + id + "&text=" + encodeURIComponent(finalText) + "&linebreaks=" + finalLinebreaks + "&type=" + type + "&list=" + list);
+        xmlhttp.send();
+        console.log('after');
+        //text = text.replace("<br>", "");
+    }
 }
