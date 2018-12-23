@@ -5,6 +5,7 @@
             $id = $_GET['id'];
             $type = $_GET['type'];
             $text = $_GET['text'];
+            $list = $_GET['list'];
             $linebreaks = $_GET['linebreaks'];
             $default = str_repeat("0", strlen($linebreaks));
         
@@ -48,6 +49,8 @@ $firstWord = true;
     
     //$text = $row['text'];
     $separatedText = explode(" ", $text);
+    $sL = explode(",", $list);
+    $currentList = array($sL[0], $sL[1], $sL[2], 0);
     $linebreaks = str_split($linebreaks);
     $underlines = str_split($default);
     $bolds = str_split($default);
