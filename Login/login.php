@@ -14,6 +14,9 @@
             if ($data['active'] != 0) {
                 $_SESSION['allowed'] = true;
                 $_SESSION['perms'] = $data['permissions'];
+                include 'db.php';
+                $result = mysqli_query($connection, "INSERT INTO Users (email, change) VALUES ('$email','Logged In!');");
+                
                 echo "<script> window.location.replace('../'); </script>";
             }
             else {
@@ -28,7 +31,7 @@
         }
     }
     else {
-        $_SESSION['message'] = "Incorrect email";
+        $_SESSION['message'] = "Incorrect email OR the database is down, sorry";
         header('Location: index.php');
     }
 

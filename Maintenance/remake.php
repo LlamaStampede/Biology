@@ -47,7 +47,8 @@
             
             //echo $currentID . "<br>";
             if ($currentType != $type) {
-                $add = mysqli_query($connection, "INSERT INTO GroupedNotes VALUES ('$currentID', '$currentText', '$currentType', '$currentChapter', '$linebreaks', '$highlights', '$bolds', '$underlines')");
+                echo "'$linebreaks', '$highlights', '$bolds', '$underlines'";
+                $add = mysqli_query($connection, "INSERT INTO GroupedNotes VALUES ('$currentID', '$currentText', '$currentType', '$currentChapter', '$linebreaks', '$highlights', '$bolds', '$underlines', '$currentID')");
                 //echo "INSERT INTO GroupedNotes ('id', 'text', 'type', 'chapter', 'linebreaks', 'highlights', 'bolds', 'underlines') VALUES ('$currentID', '$currentText', '$currentType', '$currentChapter', '$linebreaks', '$highlights', '$bolds', '$underlines')";
                 $currentID++;
                 $currentType = $type;
@@ -56,8 +57,9 @@
                 $bolds = "";
                 $underlines = "";
                 $currentText = "";
-                echo $currentID;
+                //echo "INSERT INTO GroupedNotes VALUES ('$currentID', '$currentText', '$currentType', '$currentChapter', '$linebreaks', '$highlights', '$bolds', '$underlines', '$currentID')" . "<br>";
             }
+            
             $currentText = $currentText . $row['word'] . " ";
             if ($previousLine == $line) {
                 $linebreaks = $linebreaks . '0';

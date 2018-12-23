@@ -7,6 +7,7 @@
 <html>
     <head>
         <title>Log in!</title>
+        <link rel="stylesheet" type="text/css" href="loginStyles.css">
     </head>
     <body>
         <?php
@@ -32,33 +33,37 @@
         ?>
         <script>
             function login() {
-                document.getElementById('registerContainer').style.display = "none";
-                document.getElementById('loginButton').style.display = "inline";
+                document.getElementById('registerContainer1').style.display = "none";
+                document.getElementById('registerContainer2').style.display = "none";
+                document.getElementById('submit').name = "login";
             }
             function register() {
-                document.getElementById('loginButton').style.display = "none";
-                document.getElementById('registerContainer').style.display = "inline";
+                document.getElementById('registerContainer1').style.display = "inline";
+                document.getElementById('registerContainer2').style.display = "inline";
+                document.getElementById('submit').name = "register";
             }
             
         </script>
         
-        <h1>Login Page</h1>
+        <h1 id="welcome">Welcome to the Biology Notes</h1>
         <div id="container">
             <div id="buttonContainer">
-                <button onclick="login()" style="float:left;">Log in</button> 
-                <button onclick="register()" style="margin-left:50px;float:left;">Register</button><br>
+                <button id="chooseLogin" class="button" onclick="login()" style="float:left;">Login</button> 
+                <button id="chooseRegister" class="button" onclick="register()" style="float:left;">Register</button><br>
             </div>
+            <br>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                <div id="registerContainer1" style="display:none;">
+                    First Name: <input type="text" name="name"><br>
+                </div>
                 <div id="loginContainer">
                     <a style="color:red;">*</a> Email: <input type="email" name="email"><br>
                     <a style="color:red;">*</a> Password: <input type="password" name="password"><br>
-                    <input id="loginButton" type="submit" value="Submit" name="login"> <br>
                 </div>
-                <div id="registerContainer"  style="display:none;">
-                    First Name: <input type="text" name="name"><br>
+                <div id="registerContainer2" style="display:none;">
                     <a style="color:red;">*</a> Confirm Password: <input type="password" name="cPassword"><br>
-                    <input type="submit" value="Sign Up" name="register">
                 </div>
+                <input class="button" id="submit" type="submit" value="Submit" name="login">
             </form>
         </div>
     </body>

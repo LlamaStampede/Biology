@@ -14,7 +14,7 @@
             $db = 'sql9262759';
             $connection = mysqli_connect($server, $user, $pass, $db);
             
-            $result = mysqli_query($connection, "SELECT * FROM dictionary WHERE LOWER(word) LIKE '%$text%' AND NOT id='$id';");
+            $result = mysqli_query($connection, "SELECT * FROM dictionary WHERE LOWER(word) LIKE '%$text%';");
             if (mysqli_num_rows($result) > 0) {
                 echo "<div id='definitionHeader'>Definitions:</div><br>";
             }

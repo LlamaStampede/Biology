@@ -1,7 +1,7 @@
 <?php
     session_start();
     if (isset($_SESSION['allowed']) && $_SESSION['allowed'] == true) {
-        echo "<script> alert('you are logged in') </script>";
+        //echo "<script> alert('you are logged in') </script>";
     }
     else {
         echo "<script> window.location.replace('/Biology/Login/') </script>";
@@ -222,12 +222,45 @@
                 }, 1000);
             }
             
+            var editing = false;
+            
+            function hovering(element) {
+                if (element.dataset.dblclicked != "true" && editing) {
+                    var plus = document.getElementById("plus");
+                    plus.dataset.id = element.id.slice(7);
+                    plus.style.display = "inline";
+                    element.appendChild(plus);
+                }
+                //element.parentNode.insertBefore(plus, element.nextSibling);
+            }
+            
+            function removePlus(element) {
+                var plus = document.getElementById("plus");
+                plus.dataset.id = "";
+                plus.style.display = "none";
+            }
+            
+            function plus(element) {
+                console.log(element.dataset.id);
+            }
+            
+            function edit() {
+                if (editing) {
+                    editing = false;
+                }
+                else {
+                    editing = true;
+                }
+            }
         </script>
+        
+        <input onclick="plus(this)" id="plus" type="image" src="plus.png" alt="Add Section" width="30" data-id="" height="30" style="display:none;margin-left:80%;">
+        
         <div class="col6" id="txtHint" style="padding:10px;">
             <b>Select a chapter to view it</b>
         </div>
         
-        <div class="col6" id="right" style="position:fixed;height:15%;background-color:aqua;top:0px;right:0px;padding:10px;">
+        <div class="col6" id="right" style="position:fixed;height:15%;background-color:#c7dce6;top:0px;right:0px;padding:10px;">
             <div id="chapterButtons" style="overflow-x: auto;white-space: nowrap;height:5%;padding-bottom:10px;">
                 <script>document.getElementById("right").style.height = screen.height + "px";</script>
                 <?php
@@ -245,6 +278,8 @@
             <button class="button editButton" type="button" onclick="highlight()">Highlight</button>
             <button class="button editButton" type="button" onclick="bold()">Bold</button>
             <button class="button editButton" type="button" onclick="underline()">Underline</button>
+            <button class="button editButton" type="button" onclick="edit()">Edit</button>
+            <div style="width:100%;height:3px;background-color:black;margin-top:5px;margin-bottom:5px;">  </div>
             <div id="holder" style="overflow-y:scroll; height: 75%;">
                 Click on a word to see dictionary entries and other occurences of that word
             </div>

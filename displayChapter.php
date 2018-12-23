@@ -76,7 +76,7 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     $type = $row['type'];
     $chapter = $row['chapter'];
     $isList = false;
-    echo "<div class='Section' id='Section$id' data-type='$type' data-chapter='$chapter' contenteditable='false' ondblclick='doubleclick(this)' onfocusout='focusOUT(this)'>"; //Create the section's div
+    
      
     if (substr($type, 0, 9) == "LIST_ITEM") { //Check if section is a list
         $isList = true;
@@ -86,13 +86,15 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
             $previousType = substr($lastSectionType, -1);
         }
         else {
-            //$amountOfLists++;
+            $amountOfLists++;
             $currentList = array(0, 0, 0, 0);
             $linesInList = 0;
         }
     }
-    
-    
+    $extra = null;
+    if (isList) {
+        $extra = "data-list='" . $currentList[0] . "," . $currentList[1] . "," . $currentList[2] . "'";
+    }
     
     $text = $row['text'];
     $separatedText = explode(" ", $text);
@@ -100,9 +102,10 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     $underlines = str_split($row['underlines']);
     $bolds = str_split($row['bolds']);
     $highlights = str_split($row['highlights']);
-    if ($id == 3) {
+    /*if ($id == 3) {
         echo "<script>console.log('" . count($separatedText) . "');</script>";
-    }
+    }*/
+    echo "<div class='Section' id='Section$id' onmouseout='removePlus(this)' onmouseover='hovering(this)' data-type='$type' data-chapter='$chapter' $extra contenteditable='false' ondblclick='doubleclick(this)' onfocusout='focusOUT(this)'>"; //Create the section's div
     for ($i=0; $i<count($separatedText); $i++) { //Iterate through each word applying all information //separatedText must have an empty value
         $styleClasses = "";
         $dataColor = "";
@@ -146,7 +149,7 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     
     
     
-    
+    $isList = false;
     
     echo "</div>"; //End the section's div
     $lastSectionType = $type;

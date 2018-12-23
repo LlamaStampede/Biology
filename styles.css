@@ -102,8 +102,25 @@ html, body {
   background-color: #379683;
 }
 
+[data-hide="true"] {
+  display: none;
+}
+[data-hide="false"] {
+  display: inherit;
+}
+
 .headingFinder:hover, .definition:hover {
     background-color: rgb(0, 235, 255);
+    cursor: pointer;
+}
+
+#holder {
+    width:100%;
+}
+
+#definitionHeader {
+    text-align: center;
+    font-size: 24px;
 }
 
 .editButtons:hover {
