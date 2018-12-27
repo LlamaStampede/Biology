@@ -1,6 +1,12 @@
 <?php 
     require 'db.php';
     session_start();
+    if (isset($_SESSION['allowed']) && $_SESSION['allowed'] == true) {
+        echo "<script> window.location.replace('/Biology/') </script>";
+    }
+    else {
+        echo "<script> alert('top of Login/index.php'); </script>";
+    }
 ?>
 
 <!Doctype html>

@@ -4,7 +4,6 @@
         //echo "<script> alert('you are logged in') </script>";
     }
     else {
-        $_SESSION['message'] = "Please Log in or Sign up";
         echo "<script> window.location.replace('/Biology/Login/') </script>";
     }
 ?>
@@ -19,33 +18,6 @@
         <script src="contentEdit.js"></script>
         <title>Main page</title>
     </head>
-    <?php
-        $names = array("Own Notes", "Editing", "Class List", "Others' Notes", "Favorited");
-        for ($i=0;$i<5;$i++) {
-            echo '<div class="display" id="' . $names[$i] . '" data-hide=true>';
-            switch ($i) {
-                case 0:
-                    //code to be executed if n=label1;
-                    break;
-                case 1:
-                    //code to be executed if n=label2;
-                    break;
-                case 2:
-                    //code to be executed if n=label3;
-                    break;
-                case 3:
-                    //code to be executed if n=label3;
-                    break;
-                case 4:
-                    //code to be executed if n=label3;
-                    break;
-                default:
-                    echo "error";
-            }
-            echo $names[$i];
-            echo '</div>';
-        }
-    ?>
     <body>
         <script>
             var selected = []
@@ -141,7 +113,7 @@
                 }
                 xmlhttp.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
-                        document.getElementById("left").innerHTML = this.responseText;
+                        document.getElementById("txtHint").innerHTML = this.responseText;
                     }
                 };
 
@@ -152,7 +124,7 @@
                     xmlhttp.send();
                 }
                 else {
-                    document.getElementById("left").innerHTML = "Select a chapter to view";
+                    document.getElementById("txtHint").innerHTML = "Select a chapter to view";
                 }
             }
             
@@ -187,7 +159,7 @@
                     }
                     xmlhttp.onreadystatechange = function() {
                         if (this.readyState == 4 && this.status == 200) {
-                            document.getElementById("left").innerHTML = this.responseText;
+                            document.getElementById("txtHint").innerHTML = this.responseText;
                         }
                     };
 
@@ -284,11 +256,11 @@
         
         <input onclick="plus(this)" id="plus" type="image" src="plus.png" alt="Add Section" width="30" data-id="" height="30" style="display:none;margin-left:80%;">
         
-        <div id="left" style="padding:10px;">
+        <div class="col6" id="txtHint" style="padding:10px;">
             <b>Select a chapter to view it</b>
         </div>
         
-        <div id="right" style="position:fixed;height:15%;background-color:#c7dce6;top:0px;left:50%;padding:10px;">
+        <div class="col6" id="right" style="position:fixed;height:15%;background-color:#c7dce6;top:0px;right:0px;padding:10px;">
             <div id="chapterButtons" style="overflow-x: auto;white-space: nowrap;height:5%;padding-bottom:10px;">
                 <script>document.getElementById("right").style.height = screen.height + "px";</script>
                 <?php
@@ -312,67 +284,5 @@
                 Click on a word to see dictionary entries and other occurences of that word
             </div>
         </div>
-        <div id='semicircle' style="bottom:0%;left:45%;width:100px;height:50px;position:fixed;border-top-left-radius:100px;border-top-right-radius:100px;background-color:black;color:white;text-align:center;font-size:50px;vertical-align:-10px;" onclick="arrowClicked()" data-clicked="false">
-            <p id="inner" style="margin:-10px;">&#8607;</p>
-        </div>
-        <div id="bottomBar" style="width:100%;height:255px;background-color:#484848;position:fixed;display:none;">
-            TEXT
-        </div>
-        <script>
-            var x = window.innerWidth;
-            var percent = 20/x;
-            document.getElementById("semicircle").style.left = 45 + "%";
-            document.getElementById("semicircle").style.width = 10 + "%";
-            document.getElementById("semicircle").style.height = 5 + "%";
-            document.getElementById("left").style.width = 50 - 2000/x + "%";
-            document.getElementById("right").style.width = 50 - 2000/x + "%";
-            console.log(percent);
-            function arrowClicked() {
-                var pos;
-                var diff;
-                var end;
-                if (document.getElementById("semicircle").dataset.clicked == "false") {
-                    document.getElementById("bottomBar").style.display = "inline";
-                    pos = window.innerHeight-45;
-                    diff = -1;
-                    end = window.innerHeight-300;
-                    console.log("start bottom")
-                }
-                else {
-                    pos = window.innerHeight-300;
-                    diff = 1;
-                    end = window.innerHeight-45;
-                    console.log("start top")
-                }
-                
-                var elem = document.getElementById("semicircle");   
-                
-                var id = setInterval(frame, 3);
-                function frame() {
-                    if (pos == end) {
-                        clearInterval(id);
-                        if (diff == 1) {
-                            document.getElementById("semicircle").innerHTML = '<p id="inner" style="margin:-10px;">&#8607;</p>';
-                            document.getElementById("semicircle").dataset.clicked = "false";
-                            console.log("end bottom")
-                            document.getElementById("bottomBar").style.display = "none";
-                        }
-                        else {
-                            document.getElementById("semicircle").innerHTML = '<p id="inner" style="margin:-10px;">&#8609;</p>';
-                            document.getElementById("semicircle").dataset.clicked = "true";
-                            console.log("end top")
-                            
-                        }
-                        
-                    } else {
-                        console.log(pos);
-                        pos += diff;
-                        document.getElementById("bottomBar").style.top = pos + 45 + "px";
-                        elem.style.top = pos + "px";
-                    }
-                }
-            }
-                
-        </script>
     </body>
 </html>

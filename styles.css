@@ -148,3 +148,37 @@ html, body {
 .highlight[data-color="yellow"]{
     background-color: yellow;
 }
+
+.draggable {
+    width:10%;
+    height:40px;
+    border-radius:10px;
+    background-color:#acacac;
+    margin-top:9px;
+    margin-bottom:10px;
+    line-height: 40px;
+    position: relative;
+}
+
+@media only screen and (max-width: 1250px) {
+    .draggable {
+        width:150px;
+        border-radius:10px;
+    }
+}
+
+[data-pos='center'] {
+    left=45%;
+}
+
+[data-pos='left'] {
+    left=20%;
+}
+
+[data-pos='right'] {
+    left=70%;
+}
+
+#right {
+    overflow-y: scroll;
+}

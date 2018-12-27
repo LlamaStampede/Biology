@@ -1,3 +1,13 @@
+<?php
+    session_start();
+    if (isset($_SESSION['allowed']) && $_SESSION['allowed'] == true) {
+        //echo "<script> alert('you are logged in') </script>";
+    }
+    else {
+        $_SESSION['message'] = "Please Log in or Sign up";
+        echo "<script> window.location.replace('/Biology/Login/') </script>";
+    }
+?>
 <!Doctype html>
 <html>
     <body>

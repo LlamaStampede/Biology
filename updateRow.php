@@ -1,3 +1,13 @@
+<?php
+    session_start();
+    if (isset($_SESSION['allowed']) && $_SESSION['allowed'] == true) {
+        //echo "<script> alert('you are logged in') </script>";
+    }
+    else {
+        $_SESSION['message'] = "Please Log in or Sign up";
+        echo "<script> window.location.replace('/Biology/Login/') </script>";
+    }
+?>
 <!Doctype html>
 <html>
     <body>
@@ -30,7 +40,9 @@ $firstWord = true;
     //$chapter = $row['chapter'];
     $isList = false;
     //echo "<div class='Section' id='Section$id' data-type='$type' data-chapter='$chapter' contenteditable='false' ondblclick='doubleclick(this)' onfocusout='focusOUT(this)'>"; //Create the section's div
-    echo "<br>";
+    if ($type != "Title") {
+        echo "<br>";
+    }
     if (substr($type, 0, 9) == "LIST_ITEM") { //Check if section is a list
         $isList = true;
         $listType = substr($type, -1);

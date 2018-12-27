@@ -1,3 +1,14 @@
+<?php
+    session_start();
+    if (isset($_SESSION['allowed']) && $_SESSION['allowed'] == true) {
+        //echo "<script> alert('you are logged in') </script>";
+    }
+    else {
+        $_SESSION['message'] = "Please Log in or Sign up";
+        echo "<script> window.location.replace('/Biology/Login/') </script>";
+    }
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -91,7 +102,7 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
             $linesInList = 0;
         }
     }
-    $extra = null;
+    $extra = "";
     if (isList) {
         $extra = "data-list='" . $currentList[0] . "," . $currentList[1] . "," . $currentList[2] . "'";
     }
@@ -144,6 +155,7 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
   
     if ($firstSection) {
         $firstSection = false;
+        echo " <br> <div id='here'></div>";
     }
     
     

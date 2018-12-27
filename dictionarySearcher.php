@@ -1,3 +1,13 @@
+<?php
+    session_start();
+    if (isset($_SESSION['allowed']) && $_SESSION['allowed'] == true) {
+        //echo "<script> alert('you are logged in') </script>";
+    }
+    else {
+        $_SESSION['message'] = "Please Log in or Sign up";
+        echo "<script> window.location.replace('/Biology/Login/') </script>";
+    }
+?>
 <!Doctype html>
 <html>
     <head>
@@ -27,7 +37,7 @@
             }
         
             //$headings = mysqli_query($connection, "SELECT id, text, chapter FROM GroupedNotes WHERE LOWER(text) LIKE '%$text%' AND (type LIKE 'Heading _' OR type LIKE '%Title';");
-            $headings = mysqli_query($connection, "SELECT id, text, chapter FROM GroupedNotes WHERE LOWER(text) LIKE '%$text%';");// AND (type LIKE 'Heading _' OR type LIKE '%Title';");
+            $headings = mysqli_query($connection, "SELECT id, text, chapter, linebreaks FROM GroupedNotes WHERE LOWER(text) LIKE '%$text%';");// AND (type LIKE 'Heading _' OR type LIKE '%Title';");
             if (mysqli_num_rows($headings) > 0) {
                 echo "<div id='definitionHeader'>Related Headings:</div><br>";
             }
@@ -35,6 +45,16 @@
                 $text = $row['text'];
                 $chapter = $row['chapter'];
                 $id = $row['id'];
+                $linebreaks = $row['linebreaks'];
+                $newText = "";
+                $splitText = explode(" ", $text);
+                for ($i=0;$i<strlen($linebreaks);$i++) {
+                    if ($linebreaks[$i] == "1") {
+                        $newText .= "<br>";
+                    }
+                    $newText .= $splitText[$i] . " ";
+                }
+                $text = $newText;
                 echo "<div class='headingFinder' id='HEAD_$id' onclick='showSection($id, $chapter)'> $text <br>Chapter: $chapter</div><br>";
             }
         ?>

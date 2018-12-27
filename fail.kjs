@@ -1,0 +1,93 @@
+/*function center(item) {
+    return 
+}
+
+var items = document.getElementsByClassName('draggable')
+var initX, initY, mousePressX, mousePressY;
+var arr = Array(Array(0,0),Array(0,0),Array(0,0),Array(0,0),Array(0,0));
+console.log(items.length);
+var current;
+for (var i=0;i<items.length;i++) {
+    if (items[i].dataset.pos == "center") {
+        items[i].addEventListener('mousedown', function(event) {
+            arr[i-1][0] = this.offsetLeft;
+            arr[i-1][1] = this.offsetTop;
+            mousePressX = event.clientX;
+            mousePressY = event.clientY;
+            current = i-1
+            this.addEventListener('mousemove', repositionElement, false);
+
+            window.addEventListener('mouseup', function() {
+                items[i].removeEventListener('mousemove', repositionElement, false);
+            }, false);
+
+        }, false);
+    }
+}
+var initX, initY, mousePressX, mousePressY;
+
+
+
+function repositionElement(event) {
+	this.style.left = arr[current][0] + event.clientX - mousePressX + 'px';
+	this.style.top = arr[current][1] + event.clientY - mousePressY + 'px';
+}
+/*
+console.log('offset left : ', document.getElementById("contextMenu").offsetLeft);
+console.log('offset top : ', document.getElementById("contextMenu").offsetTop);
+console.log('offset width : ', document.getElementById("contextMenu").offsetWidth);
+console.log('offset height : ', document.getElementById("contextMenu").offsetHeight);*/
+/*
+var items = document.getElementsByClassName('draggable');
+var initX, initY, mousePressX, mousePressY;
+
+var x, x_length = 5
+  , y, y_length = 2
+  , arr = [];
+
+// Don't be lazy
+for (x = 0; x < x_length; x++) {
+  arr[x] = [];
+  for (y = 0; y < y_length; y++) {
+    arr[x][y] = '1';
+  }
+}
+var current;
+for (var i=0;i<items.length;i++) {
+    contextmenu = items[i]
+    contextmenu.addEventListener('mousedown', function(event) {
+        /*console.log('offset left : ', document.getElementById("D_Own").offsetLeft);
+        console.log('offset top : ', document.getElementById("D_Own").offsetTop);
+        console.log('offset width : ', document.getElementById("D_Own").offsetWidth);
+        console.log('offset height : ', document.getElementById("D_Own").offsetHeight);*/
+        console.log(i, items.length);
+        arr[i-1][0] = this.offsetLeft;
+        arr[i-1][1] = this.offsetTop;
+        console.log("initX: " + arr[i-1][0]);
+        console.log("initY: " + arr[i-1][1]);
+        mousePressX = event.clientX;
+        mousePressY = event.clientY;
+        console.log("mouseX: " + mousePressX);
+        console.log("mouseY: " + mousePressY + "\n\n\n");
+        current = i-1;
+        this.addEventListener('mousemove', repositionElement, false);
+
+        window.addEventListener('mouseup', function() {
+          contextmenu.removeEventListener('mousemove', repositionElement, false);
+        }, false);
+
+    }, false);
+}
+function repositionElement(event) {
+    console.log("EventX: " + event.clientX + 'px');
+    console.log("EventY: " + event.clientY + 'px');
+    console.log("initX: " + arr[current][0]);
+    console.log("initY: " + arr[current][1]);
+    console.log("mouseX: " + mousePressX);
+    console.log("mouseY: " + mousePressY);
+	this.style.left = arr[current][0] + event.clientX + -1*mousePressX + 'px';
+	this.style.top = arr[current][1] + event.clientY + -1*mousePressY - 50 + 'px';
+    console.log("Left: " + (arr[current][0] + event.clientX - mousePressX) + 'px');
+    console.log("Top: " + (arr[current][1] + event.clientY - mousePressY) + 'px');
+}
+*/
