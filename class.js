@@ -1,5 +1,5 @@
-function createLog(email, change) {
-    //alert("here");
+function callClass(parameters) {
+    console.log("here");
     if (window.XMLHttpRequest) {
         // code for IE7+, Firefox, Chrome, Opera, Safari
         xmlhttp = new XMLHttpRequest();
@@ -9,10 +9,10 @@ function createLog(email, change) {
     }
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("holder").innerHTML = this.responseText;
+            document.getElementById("classResults").innerHTML = this.responseText;
         }
     };
-    //alert("about to send: " + "log.php?email=" + email + "&change=" + change);
-    xmlhttp.open("GET","log.php?email=" + email + "&change=" + change,true);
+    console.log("going to " + "class.php?" + parameters);
+    xmlhttp.open("GET", "class.php?" + parameters ,true);
     xmlhttp.send();
 }

@@ -49,7 +49,7 @@ function stopped(object) {
         document.getElementById(object.id).style.left = "20%";
         //console.log("Repositioned " + object.id + " to the left");
         var result = object.parentElement.querySelector("[data-pos='left']")
-        console.log("Left object: " + result.id);
+        //console.log("Left object: " + result.id);
         result.dataset.pos = "center";
         object.dataset.pos = "left";
         hide(result.innerHTML);
@@ -59,7 +59,7 @@ function stopped(object) {
     else if (0.5*width <= left && left <= width*0.9) {
         document.getElementById(object.id).style.left = "70%";
         var result = object.parentElement.querySelector("[data-pos='right']")
-        console.log("Right object: " + result.id);
+        //console.log("Right object: " + result.id);
         result.dataset.pos = "center";
         object.dataset.pos = "right";
         hide(result.innerHTML);
@@ -82,7 +82,7 @@ function goBackOriginal(object, end) {
     function frame() {
         if (Math.floor(pos) == Math.floor(end)) {
             clearInterval(id);
-            console.log("Animation over");
+            //console.log("Animation over");
 
         } else {
             pos += diff;
@@ -96,7 +96,7 @@ function goBack(object, end, multiplier) {
     var pos = object.offsetLeft
     //var end = 0.45 * width;
     var originalDiff = Math.abs(pos-end);
-    console.log("Start Position: " + pos + ". End Pos: " + end + ". Diff: " + Math.abs(pos-end))
+    //console.log("Start Position: " + pos + ". End Pos: " + end + ". Diff: " + Math.abs(pos-end))
     var diff;
     if (pos < end) {
         diff = 1
@@ -108,7 +108,7 @@ function goBack(object, end, multiplier) {
     function frame() {
         if (Math.floor(100 *tryy)/100 == 3.14) {
             clearInterval(id);
-            console.log("Animation over");
+            //console.log("Animation over");
 
         } else {
             tryy += 0.01
@@ -120,7 +120,7 @@ function goBack(object, end, multiplier) {
 }
 
 function difference(tryy) {
-    console.log(tryy);
+    //console.log(tryy);
     return 2.09444 * Math.sin(tryy);
 }
 
@@ -134,7 +134,7 @@ function hide(text) {
 function show(text, side) {
     var name = text.replace(" ", "_");
     var object = document.getElementById(name);
-    console.log("Got an object here: " + name);
+    //console.log("Got an object here: " + name);
     document.getElementById(side).appendChild(object);
     document.getElementById(name).dataset.hide = "false";
 }
