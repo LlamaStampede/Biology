@@ -26,10 +26,10 @@
                     $_SESSION['allowed'] = true;
                     $_SESSION['perms'] = $data['permissions'];
                     include 'db.php';
-                    echo "<script> alert('before'); </script>";
+                    //echo "<script> alert('before'); </script>";
                     //echo "<script> createLog('$email', 'Logged In!'); </script>";
                     
-                    echo "<script> alert('middle'); </script>";
+                    //echo "<script> alert('middle'); </script>";
                     echo "<script> window.location.replace('../log.php?email=$email&change=Logged In!'); </script>";
                 }
                 else {

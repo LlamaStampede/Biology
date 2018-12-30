@@ -37,7 +37,7 @@
             }
         
             //$headings = mysqli_query($connection, "SELECT id, text, chapter FROM GroupedNotes WHERE LOWER(text) LIKE '%$text%' AND (type LIKE 'Heading _' OR type LIKE '%Title';");
-            $headings = mysqli_query($connection, "SELECT id, text, chapter, linebreaks FROM GroupedNotes WHERE LOWER(text) LIKE '%$text%';");// AND (type LIKE 'Heading _' OR type LIKE '%Title';");
+            $headings = mysqli_query($connection, "SELECT id, text, chapter, linebreaks, type FROM GroupedNotes WHERE LOWER(text) LIKE '%$text%';");// AND (type LIKE 'Heading _' OR type LIKE '%Title';");
             if (mysqli_num_rows($headings) > 0) {
                 echo "<div id='definitionHeader'>Related Headings:</div><br>";
             }
@@ -45,6 +45,7 @@
                 $text = $row['text'];
                 $chapter = $row['chapter'];
                 $id = $row['id'];
+                $type = $row['type'];
                 $linebreaks = $row['linebreaks'];
                 $newText = "";
                 $splitText = explode(" ", $text);
@@ -55,7 +56,10 @@
                     $newText .= $splitText[$i] . " ";
                 }
                 $text = $newText;
-                echo "<div class='headingFinder' id='HEAD_$id' onclick='showSection($id, $chapter)'> $text <br>Chapter: $chapter</div><br>";
+                if (substr($type, 0, 9) == "LIST_ITEM") {
+                    $type = "List";
+                }
+                echo "<div class='headingFinder' id='HEAD_$id' onclick='showSection($id, $chapter)'> $text <br>Chapter: $chapter - $type</div><br>";
             }
         ?>
     </body>

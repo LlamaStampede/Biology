@@ -16,15 +16,17 @@ document.addEventListener('mousedown', function (event) {
             object.style.left = (width*0.89) + "px";
         }
     }
-
+    
     function mouseUp() {
         object.removeEventListener("mousemove", mouseMove);
         object.removeEventListener("mouseup", mouseUp);
         object.removeEventListener("mouseout", mouseUp);
+        object.style.cursor = "grab";
         stopped(object);
     }
     
     if (event.target.classList.contains('draggable') && event.target.dataset.pos == "center") {
+        object.style.cursor = "grabbing";
         object.addEventListener("mousemove", mouseMove);
         object.addEventListener("mouseup", mouseUp);
         object.addEventListener("mouseout", mouseUp);
@@ -137,10 +139,8 @@ function show(text, side) {
     //console.log("Got an object here: " + name);
     document.getElementById(side).appendChild(object);
     document.getElementById(name).dataset.hide = "false";
+    setCookie(side + "Side", text, 30);
 }
-
-show("Editing", "right");
-show("Own Notes", "left");
 
 function switchOuters() {
     var container = document.getElementById("bottomBar");
@@ -148,8 +148,19 @@ function switchOuters() {
     var right = container.querySelector("[data-pos='right']");
     left.dataset.pos = "right";
     show(left.innerHTML, "right");
+    //setCookie("rightSide", left.innerHTML, 30);
     right.dataset.pos = "left";
     show(right.innerHTML, "left");
+    //setCookie("leftSide", right.innerHTML, 30);
     goBack(left, width*0.7, 2);
     goBack(right, width*0.2, 2);
+}
+
+function setCookie(cname, cvalue, exdays) {
+    console.log("Name: " + cname + " Value: " + cvalue + " Expiration: " + exdays);
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires="+ d.toUTCString();
+    console.log("setting Cookie: " + cname);
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }

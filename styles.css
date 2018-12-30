@@ -159,6 +159,8 @@ html, body {
     margin-bottom:10px;
     line-height: 40px;
     position: relative;
+    font-size:24px;
+    cursor:grab;
 }
 
 @media only screen and (max-width: 1250px) {
@@ -181,7 +183,7 @@ html, body {
 }
 
 #right, #left {
-    overflow-y: scroll;
+    overflow-y: auto;
     height:100%;
 }
 
@@ -195,14 +197,31 @@ html, body {
     width: 96%;
     height: 43%;
     margin-bottom: 1.5%;
+    overflow-y: auto;
 }
 
-#searchResults {
-    background-color: #8EE4AF;
-    margin-left: 2%;
-    width: 96%;
-    margin-top: 1.5%;
-    height: 45%;
+.createClass {
+    position: relative;
+    background-color: #379683;
+    width: 20%;
+    left: 40%;
+    border-radius: 5px;
+    height: 10%;
+    font-size: 25px;
+    text-align: center;
+}
+
+#createClassButton {
+    line-height: 40px;
+}
+
+.resultedClass {
+    font-size: 24px;
+    text-align: center;
+}
+
+.pointer {
+	cursor: pointer;
 }
 
 #searchBar {
@@ -211,4 +230,38 @@ html, body {
     width: 95.8%;
     height: 5%;
     border: none;
+    line-height: 46px;
+    font-size: 28px;
+	text-align: center;
+}
+
+#bottomClassBox {
+    background-color: #8EE4AF;
+    margin-left: 2%;
+    width: 96%;
+    margin-top: 1.5%;
+    height: 45%;
+    
+}
+
+.classInput {
+    width: 30%;
+    left: 35%;
+    position: relative;
+    border: none;
+    height: 30px;
+    line-height: 30px;
+    font-size: 30px;
+    margin-bottom: 2%;
+    border-radius: 5px;
+    text-align: center;
+    background-color: mediumturquoise;
+}
+
+[data-joined='true'] {
+	/*background-color: yellow;*/
+}
+
+.highlight {
+	background-color: yellow;
 }

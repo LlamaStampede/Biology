@@ -22,7 +22,7 @@ document.getElementById("semicircle").style.width = 10 + "%";
 document.getElementById("semicircle").style.height = 5 + "%";
 document.getElementById("left").style.width = 50 - 2000/x + "%";
 document.getElementById("right").style.width = 50 - 2000/x + "%";
-document.getElementById("right").style.height = y + "px";
+//document.getElementById("right").style.height = y + "px";
 //console.log(percent);
 function arrowClicked() {
     var pos;
