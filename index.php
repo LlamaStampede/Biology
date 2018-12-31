@@ -24,6 +24,10 @@
             $cookie_values[$i] = $_COOKIE[$cookie_names[$i]];
         }
     }
+	$classCookie;
+	if(isset($_COOKIE["Class"])) {
+		$classCookie = $_COOKIE["Class"];
+	}
 ?>
 
 <!DOCTYPE html>
@@ -66,7 +70,7 @@
                         echo '</div><button class="button editButton" type="button" onclick="highlight()">Highlight</button><button class="button editButton" type="button" onclick="bold()">Bold</button><button class="button editButton" type="button" onclick="underline()">Underline</button><button class="button editButton" type="button" onclick="edit()">Edit</button><div style="width:100%;height:3px;background-color:black;margin-top:5px;margin-bottom:5px;">  </div><div id="holder" style="overflow-y:auto; height: 750px;">Click on a word to see dictionary entries and other occurences of that word</div>';
                         break;
                     case 2:
-                        echo "<div id='currentClasses' class='classSelection'><div style='width:100%;font-size:48px;text-align:center;text-decoration:underline;'>Current Classes</div><br><div id='classResults'>holder text</div><br><div id='createClassButton' class='createClass' onclick='createClass()' style='cursor:pointer;'>Create Class</div></div>";
+                        echo "<div id='currentClasses' class='classSelection'><div style='width:100%;font-size:48px;text-align:center;text-decoration:underline;'>Current Classes</div><br><div id='classResults'>holder text</div><br><div id='createClassButton' class='createClass' onclick='createClass()' style='cursor:pointer;'>Create Class</div><br><div id='classRemover' class='helper'>Click on a class to select it</div></div>";
                         echo '<input id="searchBar" type="text" size="30" oninput="classSearch(this.value)" placeholder="Search for a class name, description, or creator">';
                         echo "<div id='bottomClassBox' class='classSelection'><div id='bottomTitle' style='width:100%;font-size:48px;text-align:center;text-decoration:underline;'>Most Recently Created Classes</div><br>" . '<div id="classCreator" style="display:none;">
             <form id="THEFORM" action="class.php" method="get">
@@ -76,8 +80,8 @@
          
                 <input class="createClass" id="submit" type="button" value="Cancel" name="createIt" onclick="cancelRedirect()">
             </form>   
-        </div>' . "<br><div id='searchResults'><p>Sample Text</p></div><br><div id='helper' class='resultedClass'>Click on a class to join it</div></div>";
-                        echo "<script> callClass('classResults','email=' + '$email'); callClass('searchResults', 'type=mostRecent');</script>"; 
+        </div>' . "<br><div id='searchResults'><p>Sample Text</p></div><br><div class='helper'>Click on a class to join it</div></div>";
+                        echo "<script> callClass('classResults'); callClass('searchResults', 'type=mostRecent');</script>"; 
                         break;
                     case 3:
                         echo $names[$i];
@@ -101,7 +105,7 @@
         </div>
         
         <div id='bottomContainer'>
-            <div id='semicircle' style="bottom:0%;left:45%;width:100px;height:50px;position:fixed;border-top-left-radius:100px;border-top-right-radius:100px;background-color:black;color:white;text-align:center;font-size:50px;vertical-align:-10px;opacity:0.25;z-index:2;cursor:pointer;" onmouseover="arrowHovered()" onmouseout="arrowLeft()" onclick="arrowClicked()" data-clicked="false">
+            <div id='semicircle' style="bottom:0%;left:45%;width:100px;height:50px;position:fixed;border-top-left-radius:100px;border-top-right-radius:100px;background-color:black;color:white;text-align:center;font-size:50px;vertical-align:-10px;opacity:0.25;z-index:2;cursor:pointer;" onmouseover="arrowHovered()" onmouseout="mouseLeftArrow()" onclick="arrowClicked()" data-clicked="false">
                 <p id="inner" style="margin:-10px;">&#8607;</p>
             </div>
             <div id="bottomBar" style="width:100%;height:255px;background-color:#484848;position:fixed;display:none;text-align:center;z-index:2;">

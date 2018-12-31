@@ -7,6 +7,11 @@
         $_SESSION['message'] = "Please Log in or Sign up";
         echo "<script> window.location.replace('/Biology/Login/') </script>";
     }
+
+	$classCookie;
+	if(isset($_COOKIE["classCookie"])) {
+		$classCookie = $_COOKIE["classCookie"];
+	}
 ?>
 <!Doctype html>
 <html>
@@ -74,8 +79,9 @@
                 echo "<script> window.location.replace('/Biology/') </script>";
             }
 			elseif ($type == "add") {
-				$email = $_SESSION['email'];
-				echo $email;
+				$classID = $_GET['classID'];
+				$userID = $_SESSION['userID'];
+				$addToClass = mysqli_query($connection, "INSERT INTO ClassUsers (ClassID, UserID) VALUES ('$classID', '$userID');");
 			}
 			elseif ($type == "search") {
 				$text = urldecode($_GET['words']);
@@ -85,30 +91,42 @@
 (
 SELECT CreatorID FROM Classes
 );");
-				$email;
-				$id;
+				$emailList = array();
+				$idList = array();
 				while($row = mysqli_fetch_array($userID, MYSQLI_ASSOC)) {
-					$email = $row['email'];
-					$id = $row['id'];
+					array_push($emailList, $row['email']);
+					array_push($idList, $row['id']);
+					//echo "First While loop";
 				}
 				//echo explode("@", $email)[0];
-				if (strpos(explode("@", $email)[0], strtolower($text)) !== false) {
-					//echo "<br>" . strtolower($text) . " is in " . explode("@", $email)[0];
-					$userID = $id;
+				//echo "Length of email List: " . count($emailList);
+				$userIDList = array();
+				for ($i=0;$i<count($emailList);$i++) {
+					//echo "First For loop";
+					$email = $emailList[$i];
+					if (strpos(explode("@", $email)[0], strtolower($text)) !== false) {
+						//echo "<br>" . strtolower($text) . " is in " . explode("@", $email)[0];
+						array_push($userIDList, $idList[$i]);
+					}
+					else {
+						//echo "<br>" . strtolower($text) . " is not in " . explode("@", $email)[0];
+					}
 				}
-                else {
-					//echo "<br>" . strtolower($text) . " is not in " . explode("@", mysqli_fetch_assoc($userID)['email'])[0];
-					$userID = "";
+				
+				$longUserIdString;
+				for ($i=0;$i<count($userIDList);$i++) {
+					//echo "Second For loop";
+					$longUserIdString .= "CreatorID = '$userIDList[$i]' OR "; 
 				}
-				//echo $userID;
-				$array = array("LOWER(Name)", "LOWER(Description)", "CreatorID");
-				$promptArray = array(" LIKE LOWER('%$text%');", " LIKE LOWER('%$text%');", " = '$userID';");
+				$longUserIdString = substr($longUserIdString, 0, -3) . ";";
+				//echo "UserIdString: " . $longUserIdString;
+				$where = array("LOWER(Name) LIKE LOWER('%$text%');", "LOWER(Description) LIKE LOWER('%$text%');", $longUserIdString);
 				
 				$arrayOfResults = array();
 			
 				for ($i=0;$i<3;$i++) {
-					$searchResults = mysqli_query($connection, "SELECT Name, Description, CreatorID, ClassID FROM Classes WHERE " . $array[$i] . $promptArray[$i]);
-					//echo "Sent: " . "SELECT Name, Description, CreatorID, ClassID FROM Classes WHERE " . $array[$i] . $promptArray[$i] . "<br>";
+					$searchResults = mysqli_query($connection, "SELECT Name, Description, CreatorID, ClassID FROM Classes WHERE " . $where[$i]);
+					//echo "Sent: " . "SELECT Name, Description, CreatorID, ClassID FROM Classes WHERE " . $where[$i] . "<br>";
 					while($row = mysqli_fetch_array($searchResults, MYSQLI_ASSOC)) {
 						$name = $row['Name'];
 						$desc = $row['Description'];
@@ -155,12 +173,17 @@ SELECT CreatorID FROM Classes
 							$creator = "<a class='highlight'>$creator</a>";
 						}
 					}
-					echo "<div class='resultedClass pointer' data-classID='$a[0]' data-joined='$a[1]' onclick='joinClass(this)'> &#9673 $name - $desc - Created by: $creator </div>";
+					echo "<div class='resultedClass pointer' data-classid='$a[0]' data-joined='$a[1]' onclick='joinClass(this)'> &#9673 $name - $desc - Created by: $creator </div>";
 				}
 				
 			}
+			elseif ($type == "leave") {
+				$classID = $_GET['classID'];
+				$userID = $_SESSION['userID'];
+				$addToClass = mysqli_query($connection, "DELETE FROM ClassUsers WHERE ClassID = '$classID' AND UserID = '$userID';");
+			}
             else {
-                $email = $_GET['email'];
+                $email = $_SESSION['email'];
                 
 
                 $userID = mysqli_query($connection, "SELECT id FROM Users WHERE email = '$email'");
@@ -180,6 +203,10 @@ SELECT CreatorID FROM Classes
 
                 if (count($resultArray) > 0) {
                     for ($i=0;$i<count($resultArray);$i++) {
+						$extraData = ""; $extraClass = "";
+						if ($classCookie != NULL && $classCookie == $resultArray[$i]) {
+							$extraData = " data-selectedclass='true'"; $extraClass = " cookieClass";
+						}
                         $class = mysqli_query($connection, "SELECT Name, Description, CreatorID FROM Classes WHERE ClassID = '" . $resultArray[$i] . "';");
                         $name; $desc; $creatorID; $creator;
                         while($row = mysqli_fetch_array($class, MYSQLI_ASSOC)) {
@@ -191,7 +218,7 @@ SELECT CreatorID FROM Classes
                         while($row = mysqli_fetch_array($theUser, MYSQLI_ASSOC)) {
                             $creator = explode("@", $row['email'])[0];
                         }
-                        echo "<div class='resultedClass' data-classID='$resultArray[$i]'> &#9673 $name - $desc - Created by: $creator</div>";
+                        echo "<div class='resultedClass pointer$extraClass' data-classid='$resultArray[$i]'$extraData onclick='clickedTopClass(this)'> &#9673 $name - $desc - Created by: $creator</div>";
                     }
                 }  
             }

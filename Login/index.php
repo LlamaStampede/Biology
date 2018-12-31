@@ -5,7 +5,7 @@
         echo "<script> window.location.replace('/Biology/') </script>";
     }
     else {
-        echo "<script> alert('top of Login/index.php'); </script>";
+        //echo "<script> alert('top of Login/index.php'); </script>";
     }
 ?>
 

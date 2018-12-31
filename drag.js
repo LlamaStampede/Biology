@@ -155,12 +155,3 @@ function switchOuters() {
     goBack(left, width*0.7, 2);
     goBack(right, width*0.2, 2);
 }
-
-function setCookie(cname, cvalue, exdays) {
-    console.log("Name: " + cname + " Value: " + cvalue + " Expiration: " + exdays);
-  var d = new Date();
-  d.setTime(d.getTime() + (exdays*24*60*60*1000));
-  var expires = "expires="+ d.toUTCString();
-    console.log("setting Cookie: " + cname);
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}

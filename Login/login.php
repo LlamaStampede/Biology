@@ -30,6 +30,11 @@
                     //echo "<script> createLog('$email', 'Logged In!'); </script>";
                     
                     //echo "<script> alert('middle'); </script>";
+					$getCreatorID = mysqli_query($connection, "SELECT id FROM Users WHERE email='" . $_SESSION['email'] . "'");
+					while($row = mysqli_fetch_array($getCreatorID, MYSQLI_ASSOC)) {
+						$_SESSION['userID'] = $row['id'];
+					}
+					
                     echo "<script> window.location.replace('../log.php?email=$email&change=Logged In!'); </script>";
                 }
                 else {
