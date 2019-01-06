@@ -47,7 +47,7 @@
     <body>
         <?php
             echo "<div id='outer'>";
-            $names = array("Own_Notes", "Editing", "Classes_List", "Others'_Notes", "Favorited");
+            $names = array("Own_Notes", "Editing", "Classes_List", "Others_Notes", "Favorited");
             $email = $_SESSION['email'];
             for ($i=0;$i<5;$i++) {
                 //echo '<script>console.log(' . $i . ');</script>';
@@ -112,7 +112,7 @@
                 <div id="D_Own Notes" class="draggable" data-pos="center">Own Notes</div>
                 <div id="D_Editing" class="draggable" data-pos="center">Editing</div>
                 <div id="D_Classes List" class="draggable" data-pos="center">Classes List</div>
-                <div id="D_Others' Notes" class="draggable" data-pos="center">Others' Notes</div>
+                <div id="D_Others Notes" class="draggable" data-pos="center">Others Notes</div>
                 <div id="D_Favorited" class="draggable" data-pos="center">Favorited</div>
             </div>
         </div>

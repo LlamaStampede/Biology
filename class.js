@@ -26,7 +26,7 @@ function createClass() {
         children[i].style.display = "none";
     }*/
     document.getElementById("searchResults").style.display = "none"; //make seachResultsinner div noen
-	document.getElementById("helper").style.display = "none"; //make seachResultsinner div noen
+	document.getElementById("classRemover").style.display = "none"; //make seachResultsinner div noen
     document.getElementById("bottomTitle").innerHTML = "Class Creator";
     //document.getElementById("bottomClassBox").appendChild(document.getElementById("classCreator"));
     document.getElementById("classCreator").style.display = "inline";
@@ -49,7 +49,7 @@ function submitCancelButton() {
 }
 function cancelRedirect() {
     document.getElementById("searchResults").style.display = "inline";
-	document.getElementById("helper").style.display = "inline";
+	document.getElementById("classRemover").style.display = "inline";
     document.getElementById("bottomTitle").innerHTML = "Most Recently Created Classes";
     document.getElementById("classCreator").style.display = "none";//make seachResultsinner div noen
 }
@@ -121,9 +121,11 @@ function clickedTopClass(object) {
 	arrayOfText[0] = arrayOfText[0].substr(2);
 	
 	var removeButton = document.getElementById("classRemover");
-	removeButton.innerHTML = "Click here to leave the class " + arrayOfText[0] + " " + arrayOfText[2];
+	removeButton.innerHTML = "Click here to leave the class <b>" + arrayOfText[0] + "</b> " + arrayOfText[2];
 	removeButton.classList.add("pointer");
 	removeButton.setAttribute("onclick", "removeClass('" + object.dataset.classid + "')");
+	thisToo("", "Own_Notes");
+
 }
 
 function removeClass(classID) {

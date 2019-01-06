@@ -74,7 +74,9 @@
                     $classID = $row['ClassID'];
                 }
                 
-                $makeClass = mysqli_query($connection, "INSERT INTO ClassUsers (ClassID, UserID) VALUES ('$classID', '$creatorID');");
+                $addUserToClass = mysqli_query($connection, "INSERT INTO ClassUsers (ClassID, UserID) VALUES ('$classID', '$creatorID');");
+				$addNotes = mysqli_query($connection, "INSERT INTO NotesData (text, type, chapter, linebreaks, highlights, bolds, underlines, viewOrder, ClassID, UserID) 	VALUES ('Sample Title', 'Title', '1', '00', '00', '11', '11', '1', '$classID', '$creatorID');");
+				$addNotes = mysqli_query($connection, "INSERT INTO NotesData (text, type, chapter, linebreaks, highlights, bolds, underlines, viewOrder, ClassID, UserID) VALUES ('Sample Paragraph', 'Normal', '1', '10', '33', '00', '00', '2', '$classID', '$creatorID');");
                 
                 echo "<script> window.location.replace('/Biology/') </script>";
             }
@@ -82,6 +84,8 @@
 				$classID = $_GET['classID'];
 				$userID = $_SESSION['userID'];
 				$addToClass = mysqli_query($connection, "INSERT INTO ClassUsers (ClassID, UserID) VALUES ('$classID', '$userID');");
+				$addNotes = mysqli_query($connection, "INSERT INTO NotesData (text, type, chapter, linebreaks, highlights, bolds, underlines, viewOrder, ClassID, UserID) 	VALUES ('Sample Title', 'Title', '1', '00', '00', '11', '11', '1', '$classID', '$userID');");
+				$addNotes = mysqli_query($connection, "INSERT INTO NotesData (text, type, chapter, linebreaks, highlights, bolds, underlines, viewOrder, ClassID, UserID) VALUES ('Sample Paragraph', 'Normal', '1', '10', '33', '00', '00', '2', '$classID', '$userID');");
 			}
 			elseif ($type == "search") {
 				$text = urldecode($_GET['words']);

@@ -7,6 +7,16 @@
         $_SESSION['message'] = "Please Log in or Sign up";
         echo "<script> window.location.replace('/Biology/Login/') </script>";
     }
+
+	$classCookie = 1;
+	if(isset($_COOKIE["classCookie"])) {
+		$classCookie = $_COOKIE["classCookie"];
+	}
+
+	$userID;
+	if(isset($_SESSION["userID"])) {
+		$userID = $_SESSION["userID"];
+	}
 ?>
 <!Doctype html>
 <html>
@@ -25,7 +35,7 @@
             $db = 'sql9262759';
             $connection = mysqli_connect($server, $user, $pass, $db);
         
-            $result = mysqli_query($connection, "UPDATE GroupedNotes SET text='$text', linebreaks='$linebreaks', highlights='$default', bolds='$default', underlines='$default' WHERE id = '$id';");
+            $result = mysqli_query($connection, "UPDATE NotesData SET text='$text', linebreaks='$linebreaks', highlights='$default', bolds='$default', underlines='$default' WHERE id = '$id' AND ClassID = '$classCookie' AND UserID = '$userID';");
         
 $lastSectionType = "";
 $linesInList = 0;

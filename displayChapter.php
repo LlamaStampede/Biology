@@ -7,6 +7,16 @@
         $_SESSION['message'] = "Please Log in or Sign up";
         echo "<script> window.location.replace('/Biology/Login/') </script>";
     }
+
+	$classCookie = 1;
+	if(isset($_COOKIE["classCookie"])) {
+		$classCookie = $_COOKIE["classCookie"];
+	}
+
+	$userID;
+	if(isset($_SESSION["userID"])) {
+		$userID = $_SESSION["userID"];
+	}
 ?>
 
 <!DOCTYPE html>
@@ -31,22 +41,25 @@ th {text-align: left;}
 <?php
 
 $chapters = json_decode($_GET['chapters']);
+$location = $_GET['location'];
+	
+echo "Cookie: " . $classCookie . "<br>";
     
 $partOfSQL = "";
 for ($i=0;$i<count($chapters);$i++) {
     if ($i == 0) {
-        $partOfSQL = $partOfSQL . " WHERE chapter = " . $chapters[$i];
+        $partOfSQL = $partOfSQL . " WHERE (chapter = " . $chapters[$i];
     }
     elseif ($i == count($chapters)-1) {
-        $partOfSQL = $partOfSQL . " OR chapter = " . $chapters[$i] . ";"; 
+        $partOfSQL = $partOfSQL . " OR chapter = " . $chapters[$i] . ""; 
     }
     else {
         $partOfSQL = $partOfSQL . " OR chapter = " . $chapters[$i];
     }
     
 }
- 
-//echo $partOfSQL;
+$partOfSQL .= ")";
+//echo $partOfSQL
     
 $server = 'sql9.freemysqlhosting.net';
 $user = 'sql9262759';
@@ -55,7 +68,9 @@ $db = 'sql9262759';
 $connection = mysqli_connect($server, $user, $pass, $db);
 
 
-$result = mysqli_query($connection, "SELECT * FROM GroupedNotes" . $partOfSQL);
+$result = mysqli_query($connection, "SELECT id, text, type, chapter, linebreaks, highlights, bolds, underlines, viewOrder FROM NotesData" . $partOfSQL . " AND ClassID = '$classCookie' AND UserID = '$userID';");
+	
+//echo "SELECT text, type, chapter, linebreaks, highlights, bolds, underlines, viewOrder FROM NotesData" . $partOfSQL . " AND ClassID = $classCookie AND UserID = $userID;";
     
 $colors = mysqli_query($connection, "SELECT * FROM Highlight;");
     
@@ -67,12 +82,12 @@ while($row = mysqli_fetch_array($colors, MYSQLI_ASSOC)) {
 }
     
 // display data in table
-$columns = mysqli_query($connection, "SHOW COLUMNS FROM GroupedNotes");
+/*$columns = mysqli_query($connection, "SHOW COLUMNS FROM GroupedNotes");
     
 while($row = mysqli_fetch_array($columns, MYSQLI_ASSOC)) {
     $theColumns[] = $row['Field'];
 }
-$arrlength = count($theColumns);
+$arrlength = count($theColumns);*/
     
     
 $lastSectionType = "";
@@ -116,7 +131,13 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     /*if ($id == 3) {
         echo "<script>console.log('" . count($separatedText) . "');</script>";
     }*/
-    echo "<div class='Section' id='Section$id' onmouseout='removePlus(this)' onmouseover='hovering(this)' data-type='$type' data-chapter='$chapter' $extra contenteditable='false' ondblclick='doubleclick(this)' onfocusout='focusOUT(this)'>"; //Create the section's div
+	if ($location == "Own_Notes") {
+		echo "<div class='Section' id='Section$id' onmouseout='removePlus(this)' onmouseover='hovering(this)' data-type='$type' data-chapter='$chapter' $extra contenteditable='false' ondblclick='doubleclick(this)' onfocusout='focusOUT(this)'>"; //Create the section's div
+	}
+	else {
+		echo "<div class='Section' id='Section$id'  data-type='$type' data-chapter='$chapter' $extra contenteditable='false' >"; //Create the section's div
+	}
+    
     for ($i=0; $i<count($separatedText); $i++) { //Iterate through each word applying all information //separatedText must have an empty value
         $styleClasses = "";
         $dataColor = "";

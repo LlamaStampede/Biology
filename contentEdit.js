@@ -10,7 +10,7 @@ function getAllIndexes(arr, val) {
 }
 
 function doubleclick(ele) {
-    console.log("here");
+    console.log("Top of Double Click");
     if (ele.hasChildNodes()) {
         if (ele.querySelector("#plus") != null) {
             document.getElementById("txtHint").appendChild(document.getElementById("plus"));

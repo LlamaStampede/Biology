@@ -39,6 +39,7 @@ function arrowClicked() {
         //console.log("start bottom")
         document.getElementById("cover").style.display = "inline";
         document.getElementById("cover").style.opacity = 0;
+		document.getElementById("cover").style.zIndex = 1;
         //transition("semicircle", 0.5, 0.01);
         transition("cover", 0.5, 0.01);
     }
@@ -68,6 +69,13 @@ function arrowClicked() {
                 transition("semicircle", 0.25, 0.01);
 				console.log("Before cover to 0");
                 transition("cover", 0, 0.01);
+				var idTwo = setInterval(next, 3);
+				function next() {
+					if (document.getElementById("cover").display == "none") {
+						document.getElementById("cover").style.zIndex = -1;
+						clearInterval(idTwo);
+					}
+				}
 				console.log("After cover to 0");
                 //setTimeout(function() {document.getElementById("cover").style.display = "none";}, 1000)
             }

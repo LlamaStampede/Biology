@@ -136,7 +136,7 @@ function hide(text) {
 function show(text, side) {
     var name = text.replace(" ", "_");
     var object = document.getElementById(name);
-    //console.log("Got an object here: " + name);
+    console.log("Got an object here: " + name);
     document.getElementById(side).appendChild(object);
     document.getElementById(name).dataset.hide = "false";
     setCookie(side + "Side", text, 30);

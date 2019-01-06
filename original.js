@@ -72,7 +72,7 @@ function underline() {
     }
 }
 
-function thisToo(str) {
+function thisToo(str, location) {
     if (str != "") {
         var index = selected.indexOf(str);
         if (index > -1) {
@@ -91,18 +91,19 @@ function thisToo(str) {
     }
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("Own_Notes").innerHTML = this.responseText;
+            document.getElementById(location).innerHTML = this.responseText;
         }
     };
 
     var temp = JSON.stringify(selected);
     //document.getElementById("textHint").innerHTML = selected.length;
     if (selected.length != 0) {
-        xmlhttp.open("GET","displayChapter.php?chapters="+temp,true);
+        xmlhttp.open("GET","displayChapter.php?chapters="+temp+"&location="+location,true);
         xmlhttp.send();
     }
     else {
-        document.getElementById("Own_Notes").innerHTML = "Select a chapter to view";
+		console.log(location);
+        //temp removed document.getElementById(location).innerHTML = "Select a chapter to view";
     }
 }
 
@@ -114,7 +115,7 @@ function showUser(str) {
         document.getElementById("chapterButton" + str).dataset.selected = "false";
     }
 
-    thisToo(str)
+    thisToo(str, "Own_Notes")
 }
 
 function showUserAll(element) {
@@ -153,12 +154,14 @@ function showUserAll(element) {
             elements[i].dataset.selected = "false";
         }
         selected = [];
-        thisToo("");
+        thisToo("", "Own_Notes");
     }
 
 
 }
-thisToo(1);
+thisToo(1, "Own_Notes");
+selected = [];
+thisToo(1, "right");
 
 function checkDictionary(text, id) {
     text = text.slice(0, -1);
