@@ -31,6 +31,9 @@
                 if (isset($_POST['register'])) {
                     require 'register.php';
                 }
+				if (isset($_POST['forgot'])) {
+					require 'forgot.php';
+				}
             }
             
             if (isset($_SESSION['message'])) {
@@ -70,6 +73,7 @@
                     <a style="color:red;">*</a> Confirm Password: <input type="password" name="cPassword"><br>
                 </div>
                 <input class="button" id="submit" type="submit" value="Submit" name="login">
+				<input class="button" id="forgot" type="submit" value="Forgot Password" name="forgot">
             </form>
         </div>
     </body>
