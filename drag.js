@@ -99,6 +99,7 @@ function goBack(object, end, multiplier) {
     //var end = 0.45 * width;
     var originalDiff = Math.abs(pos-end);
     //console.log("Start Position: " + pos + ". End Pos: " + end + ". Diff: " + Math.abs(pos-end))
+	console.log(pos/width + " " + end/width);
     var diff;
     if (pos < end) {
         diff = 1
@@ -111,19 +112,21 @@ function goBack(object, end, multiplier) {
         if (Math.floor(100 *tryy)/100 == 3.14) {
             clearInterval(id);
             //console.log("Animation over");
-
+			console.log("Over " + end/width + " " + end);
         } else {
             tryy += 0.01
             tryy = Math.round(100 * tryy)/100;
             pos += diff * difference(tryy) * multiplier;
             object.style.left = pos + "px";
+			console.log("Over " + pos/width + " " + pos);
         }
     }
 }
 
 function difference(tryy) {
     //console.log(tryy);
-    return 2.09444 * Math.sin(tryy);
+    //return 2.09444 * Math.sin(tryy);
+	return 1.59444 * Math.sin(tryy);
 }
 
 function hide(text) {

@@ -82,6 +82,7 @@ function thisToo(str, location) {
             selected.push(str);
         }
     }
+	console.log("In thisToo function. Str: " + str + ". Location: " + location);
     if (window.XMLHttpRequest) {
         // code for IE7+, Firefox, Chrome, Opera, Safari
         xmlhttp = new XMLHttpRequest();
@@ -92,19 +93,23 @@ function thisToo(str, location) {
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             document.getElementById(location).innerHTML = this.responseText;
+			console.log("Completed request");
+			console.log("result: " + this.responseText)
         }
     };
 
     var temp = JSON.stringify(selected);
     //document.getElementById("textHint").innerHTML = selected.length;
-    if (selected.length != 0) {
+	console.log("Selected Length: " + selected.length);
+	console.log("Destination: " + "displayChapter.php?chapters="+temp+"&location="+location);
+    //if (selected.length != 0) {
         xmlhttp.open("GET","displayChapter.php?chapters="+temp+"&location="+location,true);
         xmlhttp.send();
-    }
-    else {
-		console.log(location);
-        //temp removed document.getElementById(location).innerHTML = "Select a chapter to view";
-    }
+    //}
+    //else {
+		//console.log(location);
+        // temp document.getElementById(location).innerHTML = "Select a chapter to view";
+    //}
 }
 
 function showUser(str) {
@@ -161,7 +166,7 @@ function showUserAll(element) {
 }
 thisToo(1, "Own_Notes");
 selected = [];
-thisToo(1, "right");
+//thisToo(1, "right");
 
 function checkDictionary(text, id) {
     text = text.slice(0, -1);

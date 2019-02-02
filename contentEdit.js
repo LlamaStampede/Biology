@@ -48,8 +48,10 @@ function doubleclick(ele) {
     var split = currentText.split(" "); //split text into array at the spaces
     var text = "";
     for (var i=0;i<split.length;i++) { //loop through each word
-        text = text + "<br>".repeat(currentLinebreaks[i]); //add a <br> at the 1's in the linebreak part of array
-
+		if (text != "") {
+			text = text + "<br>".repeat(currentLinebreaks[i]); //add a <br> at the 1's in the linebreak part of array
+		}
+        
         text = text + split[i] + " "; //add the word and a space to the new text
     }
     ele.innerHTML = text; //reset the innerHTML to the newtext
@@ -96,9 +98,13 @@ function focusOUT(ele) {
         });
         text = filtered;
 
-        //console.log("Text midway through processing: " + text + "\n");
+        console.log("Text midway through processing: " + text + "\n");
 
         var list = ele.dataset.list;
+		
+		while (text[text.length-1] == "<br>") {
+			text.pop();
+		}
 
         var indexes = getAllIndexes(text, "<br>");
         var times = 0;
@@ -106,7 +112,7 @@ function focusOUT(ele) {
             text.splice(indexes[i]-times, 2, text[indexes[i]-times] + text[indexes[i]-times+1]);
             times++;
         }
-       //console.log("Text 75% through processing: " + text + "\n");
+       console.log("Text 75% through processing: " + text + "\n");
 
         var lines = new Array(text.length);
         for (var i=0;i<text.length;i++) { 

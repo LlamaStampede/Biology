@@ -85,7 +85,7 @@
 				$userID = $_SESSION['userID'];
 				$addToClass = mysqli_query($connection, "INSERT INTO ClassUsers (ClassID, UserID) VALUES ('$classID', '$userID');");
 				$addNotes = mysqli_query($connection, "INSERT INTO NotesData (text, type, chapter, linebreaks, highlights, bolds, underlines, viewOrder, ClassID, UserID) 	VALUES ('Sample Title', 'Title', '1', '00', '00', '11', '11', '1', '$classID', '$userID');");
-				$addNotes = mysqli_query($connection, "INSERT INTO NotesData (text, type, chapter, linebreaks, highlights, bolds, underlines, viewOrder, ClassID, UserID) VALUES ('Sample Paragraph', 'Normal', '1', '10', '33', '00', '00', '2', '$classID', '$userID');");
+				$addNotes = mysqli_query($connection, "INSERT INTO NotesData (text, type, chapter, linebreaks, highlights, bolds, underlines, viewOrder, ClassID, UserID) VALUES ('Sample Paragraph', 'Normal', '1', '00', '33', '00', '00', '2', '$classID', '$userID');");
 			}
 			elseif ($type == "search") {
 				$text = urldecode($_GET['words']);

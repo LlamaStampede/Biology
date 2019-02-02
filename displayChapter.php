@@ -43,22 +43,23 @@ th {text-align: left;}
 $chapters = json_decode($_GET['chapters']);
 $location = $_GET['location'];
 	
-echo "Cookie: " . $classCookie . "<br>";
+//echo "Cookie: " . $classCookie . "<br>";
+//echo "Location: " . $location . "<br>";
     
-$partOfSQL = "";
+$partOfSQL = " WHERE";
 for ($i=0;$i<count($chapters);$i++) {
     if ($i == 0) {
-        $partOfSQL = $partOfSQL . " WHERE (chapter = " . $chapters[$i];
+        $partOfSQL = $partOfSQL . " (chapter = " . $chapters[$i] . "";
     }
     elseif ($i == count($chapters)-1) {
         $partOfSQL = $partOfSQL . " OR chapter = " . $chapters[$i] . ""; 
     }
     else {
-        $partOfSQL = $partOfSQL . " OR chapter = " . $chapters[$i];
+        $partOfSQL = $partOfSQL . " OR chapter = " . $chapters[$i] . "";
     }
-    
+    $partOfSQL .= ") AND";
 }
-$partOfSQL .= ")";
+
 //echo $partOfSQL
     
 $server = 'sql9.freemysqlhosting.net';
@@ -67,8 +68,8 @@ $pass = '4fE3cl8Jqm';
 $db = 'sql9262759';
 $connection = mysqli_connect($server, $user, $pass, $db);
 
-
-$result = mysqli_query($connection, "SELECT id, text, type, chapter, linebreaks, highlights, bolds, underlines, viewOrder FROM NotesData" . $partOfSQL . " AND ClassID = '$classCookie' AND UserID = '$userID';");
+//echo "SELECT * FROM NotesData" . $partOfSQL . " ClassID = '$classCookie' AND UserID = '$userID';";
+$result = mysqli_query($connection, "SELECT * FROM NotesData" . $partOfSQL . " ClassID = '$classCookie' AND UserID = '$userID';");
 	
 //echo "SELECT text, type, chapter, linebreaks, highlights, bolds, underlines, viewOrder FROM NotesData" . $partOfSQL . " AND ClassID = $classCookie AND UserID = $userID;";
     
@@ -97,7 +98,16 @@ $currentList = array(0, 0, 0, 0);
 $bigList = array(array(1, 2, 3, 4, 5, 6, 7, 8, 9), array("a", "b", "c", "d", "e", "f", "g", "h"), array("i", "ii", "iii", "iv", "v", "vi", "vi", "vii"));
 $firstSection = true;
 $firstWord = true;
-while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+
+$length = mysqli_num_rows($result);
+	
+if ($length <= 0) {
+	echo "<script>";
+	echo "var object = document.querySelector('.cookieClass');";
+	echo "joinClass(object);";
+}
+else {
+	while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     $id = $row['id'];
     $type = $row['type'];
     $chapter = $row['chapter'];
@@ -155,9 +165,10 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
             if ($firstWord) {
                 $firstWord = false;
             }
-            else {
-                echo "<br>";
-            }
+           
+			$repeated = str_repeat("<br>", $linebreaks[$i]);
+			echo $repeated;
+			
             if ($isList) {
                 echo "<span class='list' id='List$amountOfLists.$linesInList'>" . $bigList[$listType-1][$currentList[$listType-1]] . ") </span>";
                 $linesInList++; 
@@ -187,6 +198,7 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     echo "</div>"; //End the section's div
     $lastSectionType = $type;
     }
+}
 ?>    
 </body>
 </html>

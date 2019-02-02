@@ -51,7 +51,7 @@ $firstWord = true;
     $isList = false;
     //echo "<div class='Section' id='Section$id' data-type='$type' data-chapter='$chapter' contenteditable='false' ondblclick='doubleclick(this)' onfocusout='focusOUT(this)'>"; //Create the section's div
     if ($type != "Title") {
-        echo "<br>";
+        //echo "<br>";
     }
     if (substr($type, 0, 9) == "LIST_ITEM") { //Check if section is a list
         $isList = true;
@@ -94,9 +94,8 @@ $firstWord = true;
             if ($firstWord) {
                 $firstWord = false;
             }
-            else {
-                echo "<br>";
-            }
+            $repeated = str_repeat("<br>", $linebreaks[$i]);
+			echo $repeated;
             if ($isList) {
                 echo "<span class='list' id='List$amountOfLists.$linesInList'>" . $bigList[$listType-1][$currentList[$listType-1]] . ") </span>";
                 $linesInList++; 
