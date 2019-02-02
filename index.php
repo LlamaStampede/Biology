@@ -41,6 +41,7 @@
         <script src="original.js"></script>
         <script src="log.js"></script>
         <script src="class.js"></script>
+		<script src="otherNotes.js"></script>
         <title>Main page</title>
     </head>
     
@@ -84,7 +85,14 @@
                         echo "<script> callClass('classResults'); callClass('searchResults', 'type=mostRecent');</script>"; 
                         break;
                     case 3:
-                        echo $names[$i];
+						echo "<div id='ONTopContainer'> Students: <br>
+							<div class='students' data-UserID='2' onclick='loadON(this)'> Person 1 </div>
+							<div class='students' data-UserID='4' data-owner='true' onclick='loadON(this)'>* Person 2 *</div>
+							<div class='students' data-UserID='89' onclick='loadON(this)'> Person 3 </div>
+							<div class='students' data-UserID='17' onclick='loadON(this)'> Person 4 </div>
+							</div>";
+						echo "<div id='ONResults'> Resulting Notes for this person </div>";
+						echo "<script> loadStudents(); </script>";
                         break;
                     case 4:
                         echo $names[$i];

@@ -281,3 +281,19 @@ html, body {
 .cookieClass {
 	font-weight: bold;
 }
+
+#ONTopContainer {
+	background-color: beige;
+    height: 20%;
+    margin-bottom: 1%;
+    overflow-y: scroll;
+}
+
+#ONResults {
+	background-color: burlywood;
+    height: 70%;
+}
+
+.students {
+	cursor: pointer;
+}

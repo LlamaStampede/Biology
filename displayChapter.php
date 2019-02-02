@@ -43,6 +43,10 @@ th {text-align: left;}
 $chapters = json_decode($_GET['chapters']);
 $location = $_GET['location'];
 	
+if (isset($_GET['UserID']) && $_GET['UserID'] != $userID) {
+	$userID = $_GET['UserID'];
+}
+	
 //echo "Cookie: " . $classCookie . "<br>";
 //echo "Location: " . $location . "<br>";
     
@@ -101,7 +105,7 @@ $firstWord = true;
 
 $length = mysqli_num_rows($result);
 	
-if ($length <= 0) {
+if ($length <= 0 && $location != "ONResults") {
 	echo "<script>";
 	echo "var object = document.querySelector('.cookieClass');";
 	echo "joinClass(object);";

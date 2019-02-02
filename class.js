@@ -125,7 +125,7 @@ function clickedTopClass(object) {
 	removeButton.classList.add("pointer");
 	removeButton.setAttribute("onclick", "removeClass('" + object.dataset.classid + "')");
 	thisToo("", "Own_Notes");
-
+	loadStudents();
 }
 
 function removeClass(classID) {

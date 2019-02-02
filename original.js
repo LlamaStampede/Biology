@@ -72,7 +72,7 @@ function underline() {
     }
 }
 
-function thisToo(str, location) {
+function thisToo(str, location, UserID) {
     if (str != "") {
         var index = selected.indexOf(str);
         if (index > -1) {
@@ -82,6 +82,11 @@ function thisToo(str, location) {
             selected.push(str);
         }
     }
+	var extraID = "";
+	if (UserID != null) {
+		console.log("UserID: " + UserID);
+		extraID = "&UserID=" + UserID;
+	}
 	console.log("In thisToo function. Str: " + str + ". Location: " + location);
     if (window.XMLHttpRequest) {
         // code for IE7+, Firefox, Chrome, Opera, Safari
@@ -101,9 +106,9 @@ function thisToo(str, location) {
     var temp = JSON.stringify(selected);
     //document.getElementById("textHint").innerHTML = selected.length;
 	console.log("Selected Length: " + selected.length);
-	console.log("Destination: " + "displayChapter.php?chapters="+temp+"&location="+location);
+	console.log("Destination: " + "displayChapter.php?chapters="+temp+"&location="+location+extraID);
     //if (selected.length != 0) {
-        xmlhttp.open("GET","displayChapter.php?chapters="+temp+"&location="+location,true);
+        xmlhttp.open("GET","displayChapter.php?chapters="+temp+"&location="+location+extraID,true);
         xmlhttp.send();
     //}
     //else {
